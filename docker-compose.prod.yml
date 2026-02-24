@@ -1,0 +1,17 @@
+services:
+  web:
+    volumes:
+      - staticfiles:/app/staticfiles
+
+  nginx:
+    restart: always
+    build: ./nginx
+    ports:
+      - "80:80"
+    volumes:
+      - staticfiles:/app/staticfiles
+    depends_on:
+      - web
+
+volumes:
+  staticfiles:
