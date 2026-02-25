@@ -2,7 +2,7 @@
   "name": "vamng",
   "private": true,
   "scripts": {
-    "watch:css": "bunx @tailwindcss/cli -i static/css/app.css -o static/css/outpu.css --watch",
+    "watch:css": "bunx @tailwindcss/cli -i static/css/app.css -o static/css/output.css --watch",
     "build:css": "bunx @tailwindcss/cli -i static/css/app.css -o static/css/output.css --minify"
   },
   "devDependencies": {
