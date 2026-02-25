@@ -13,6 +13,7 @@ class AirportAdmin(admin.ModelAdmin):
 @admin.register(Airline)
 class AirlineAdmin(admin.ModelAdmin):
     list_display = ("name", "icao", "country")
+    fields = ("name", "icao", "country", "iata")
 
     def has_add_permission(self, request):
         return not Airline.objects.exists()
