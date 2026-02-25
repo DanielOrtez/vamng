@@ -1,0 +1,9 @@
+{% extends "_base.html" %}
+
+{% block title %}
+    Login
+{% endblock title %}
+
+{% block content %}
+    {% include "layouts/_auth_form.html" with form_title="Sign in your account" form_action="/login/" submit_value="Login" %}
+{% endblock %}

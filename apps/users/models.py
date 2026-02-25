@@ -8,7 +8,9 @@ from apps.core.models import TimeStampedModel
 
 # Create your models here.
 class MyUser(AbstractUser):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    id = models.UUIDField(
+        primary_key=True, default=uuid.uuid4, unique=True, editable=False
+    )
     email = models.CharField(verbose_name="email address", max_length=255, unique=True)
 
     USERNAME_FIELD = "email"

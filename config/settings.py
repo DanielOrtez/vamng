@@ -36,6 +36,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 AUTH_USER_MODEL = "users.MyUser"
+LOGOUT_REDIRECT_URL = "/"
 
 INSTALLED_APPS = [
     "django.contrib.admin",

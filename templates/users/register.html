@@ -1,0 +1,9 @@
+{% extends "_base.html" %}
+
+{% block title %}
+    Register
+{% endblock title %}
+
+{% block content %}
+    {% include "layouts/_auth_form.html" with form_title="Create your account" form_action="/register/" submit_value="Register" %}
+{% endblock %}
