@@ -1,5 +1,8 @@
 .venv/
 .idea/
+__pycache__/
+.ruff_cache__/
+node_modules/
 
 staticfiles/
 
