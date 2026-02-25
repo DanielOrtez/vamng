@@ -31,3 +31,8 @@ def login(request):
             return redirect("home")
 
     return render(request, "users/auth/login.html", {"form": login_form})
+
+
+@login_required
+def profile(request):
+    return render(request, "users/profile.html")

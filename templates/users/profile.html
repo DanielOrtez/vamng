@@ -1,0 +1,41 @@
+{% extends "_base.html" %}
+
+{% block title %}
+    Profile
+{% endblock %}
+
+{% block content %}
+    <section class="container m-auto">
+        <div class="bg-base-200 rounded-box border border-base-300 p-4">
+            <section class="flex justify-between">
+                <div>{{ user }} <span class="badge badge-neutral ml-2">{{ user.rank }}</span></div>
+                <div><button class="btn btn-xs btn-primary">Edit Profile</button></div>
+            </section>
+            <section class="flex flex-col mt-2">
+                <span class="text-sm text-gray-500">{{ user.email }}</span>
+                <span class="text-sm text-gray-500">Member since {{ user.date_joined|date:"d M Y" }}</span>
+            </section>
+        </div>
+
+        <div class="grid grid-cols-3 p-4 mt-2 gap-4">
+            <div class="stats shadow bg-base-200">
+                <div class="stat">
+                    <div class="stat-title">Total Hours</div>
+                    <div class="stat-value">{{ user.total_hours }}H</div>
+                </div>
+            </div>
+            <div class="stats shadow bg-base-200">
+                <div class="stat">
+                    <div class="stat-title">Current Airport</div>
+                    <div class="stat-value">{{ user.curr_airport.icao }}</div>
+                </div>
+            </div>
+            <div class="stats shadow bg-base-200">
+                <div class="stat">
+                    <div class="stat-title">Total Flights</div>
+                    <div class="stat-value">0</div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

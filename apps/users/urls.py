@@ -7,4 +7,6 @@ urlpatterns = [
     path("register/", views.register, name="register"),
     path("login/", views.login, name="login"),
     path("logout/", LogoutView.as_view(), name="logout"),
+    # TODO: Add password reset and change views
+    path("profile/", views.profile, name="profile"),
 ]
