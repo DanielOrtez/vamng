@@ -1,0 +1,11 @@
+@import "tailwindcss";
+
+@plugin "daisyui" {
+    themes: business --default;
+}
+
+@theme {
+    --font-title: "Poppins", sans-serif;
+    --font-sans: "Inter", sans-serif;
+    --font-item: var(--font-title);
+}

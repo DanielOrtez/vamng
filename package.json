@@ -1,0 +1,13 @@
+{
+  "name": "vamng",
+  "private": true,
+  "scripts": {
+    "watch:css": "bunx @tailwindcss/cli -i static/css/app.css -o static/css/outpu.css --watch",
+    "build:css": "bunx @tailwindcss/cli -i static/css/app.css -o static/css/output.css --minify"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.2.1",
+    "daisyui": "^5.5.19",
+    "tailwindcss": "^4.2.1"
+  }
+}
