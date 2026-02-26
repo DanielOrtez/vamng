@@ -2,7 +2,7 @@
     <li><a>About us</a></li>
     <li><a>Pilots</a></li>
     <li><a>Operations</a></li>
-    {% if user.is_authenticated %}
+    {% if user.is_authenticated and not user.active_bid %}
         <li>
             <details>
                 <summary>Pilot Actions</summary>
