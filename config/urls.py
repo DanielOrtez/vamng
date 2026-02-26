@@ -28,4 +28,5 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("apps.users.urls")),
     path("", index, name="home"),
+    path("operations/", include("apps.operations.urls")),
 ]

@@ -8,7 +8,7 @@
     <section class="container m-auto">
         <div class="bg-base-200 rounded-box border border-base-300 p-4">
             <section class="flex justify-between">
-                <div>{{ user }} <span class="badge badge-neutral ml-2">{{ user.rank }}</span></div>
+                <h1 class="text-xl">{{ user }} <span class="badge badge-neutral ml-2">{{ user.rank }}</span></h1>
                 <div><button class="btn btn-xs btn-primary">Edit Profile</button></div>
             </section>
             <section class="flex flex-col mt-2">
@@ -36,6 +36,35 @@
                     <div class="stat-value">0</div>
                 </div>
             </div>
+        </div>
+
+        {% if user.active_bid %}
+            <div class="bg-base-200 rounded-box border border-base-300 p-4 mt-2">
+                <section class="flex justify-between">
+                    <h1 class="text-xl">Your Current Booked Flight</h1>
+                    <div>
+                        <form action="{% url 'cancel_bid' %}" method="post">
+                            {% csrf_token %}
+                            <input class="btn btn-xs btn-error" type="submit" value="Cancel Bid">
+                        </form>
+                    </div>
+                </section>
+                <section class="flex flex-col text-gray-500">
+                    <h4 class="text-base">{{ user.active_bid.route.code }}</h4>
+                    <div class="flex justify-between text-sm">
+                        <p>{{ user.active_bid.route.departure_airport }}</p>
+                        <p>{{ user.active_bid.route.arrival_airport }}</p>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                        <p>Fleet Type Booked: {{ user.active_bid.fleet_type.icao_code }}</p>
+                        <p>Flight Time: {{ user.active_bid.route.flight_time }}</p>
+                    </div>
+                </section>
+            </div>
+        {% endif %}
+
+        <div class="bg-base-200 rounded-box border border-base-300 p-4 mt-4">
+            <h1 class="text-xl">Flights</h1>
         </div>
     </section>
 {% endblock %}

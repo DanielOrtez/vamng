@@ -37,3 +37,15 @@ class Route(TimeStampedModel):
 
     class Meta:
         ordering = ["code"]
+
+
+class Bid(TimeStampedModel):
+    booked_by = models.OneToOneField(
+        MyUser, on_delete=models.CASCADE, related_name="active_bid"
+    )
+    route = models.ForeignKey(Route, on_delete=models.CASCADE)
+    fleet_type = models.ForeignKey(FleetType, on_delete=models.CASCADE)
+    expires_at = models.DateTimeField()
+
+    def is_expired(self):
+        return timezone.now() > self.expires_at
