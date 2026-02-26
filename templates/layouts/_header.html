@@ -1,7 +1,15 @@
 {% partialdef navbar_items %}
     <li><a>About us</a></li>
-    <li><a>Pilots</a></li>
-    <li><a>Operations</a></li>
+    <li>
+        <details>
+            <summary>Operations</summary>
+            <ul class="p-2 lg:bg-base-300 lg:w-40 lg:z-1">
+                <li><a>Routes</a></li>
+                <li><a>Pilots</a></li>
+                <li><a>Fleet</a></li>
+            </ul>
+        </details>
+    </li>
     {% if user.is_authenticated and not user.active_bid %}
         <li>
             <details>
