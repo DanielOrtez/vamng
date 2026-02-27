@@ -3,7 +3,7 @@ import uuid
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
-from apps.core.models import Airport, TimeStampedModel
+from apps.core.models import TimeStampedModel
 
 
 # Create your models here.
@@ -15,7 +15,9 @@ class MyUser(AbstractUser):
 
     country = models.CharField(max_length=2, blank=True)
     total_hours = models.IntegerField(default=0)
-    curr_airport = models.ForeignKey(Airport, on_delete=models.SET_NULL, null=True)
+    curr_airport = models.ForeignKey(
+        "core.Airport", on_delete=models.SET_NULL, null=True
+    )
     rank = models.ForeignKey("Rank", on_delete=models.SET_NULL, null=True)
 
     USERNAME_FIELD = "email"

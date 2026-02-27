@@ -1,8 +1,7 @@
 from django.db import models
 from django.utils import timezone
 
-from apps.core.models import Airport, TimeStampedModel
-from apps.users.models import MyUser
+from apps.core.models import TimeStampedModel
 
 
 # Create your models here.
@@ -23,10 +22,10 @@ class FleetType(TimeStampedModel):
 class Route(TimeStampedModel):
     code = models.CharField(max_length=10, unique=True)
     departure_airport = models.ForeignKey(
-        Airport, on_delete=models.CASCADE, related_name="departures"
+        "core.Airport", on_delete=models.CASCADE, related_name="departures"
     )
     arrival_airport = models.ForeignKey(
-        Airport, on_delete=models.CASCADE, related_name="arrivals"
+        "core.Airport", on_delete=models.CASCADE, related_name="arrivals"
     )
     flight_time = models.DurationField()
     fleet_allowed = models.ManyToManyField(FleetType)
@@ -41,7 +40,7 @@ class Route(TimeStampedModel):
 
 class Bid(TimeStampedModel):
     booked_by = models.OneToOneField(
-        MyUser, on_delete=models.CASCADE, related_name="active_bid"
+        "users.MyUser", on_delete=models.CASCADE, related_name="active_bid"
     )
     route = models.ForeignKey(Route, on_delete=models.CASCADE)
     fleet_type = models.ForeignKey(FleetType, on_delete=models.CASCADE)
