@@ -33,6 +33,6 @@ def login(request):
     return render(request, "users/auth/login.html", {"form": login_form})
 
 
-@login_required
+@login_required(login_url="/login/")
 def profile(request):
     return render(request, "users/profile.html")
