@@ -56,12 +56,10 @@
                         <li><a href="{% url 'admin:index' %}" class="p-3 text-sm">Admin</a></li>
                     {% endif %}
                     <li>
-                        <a class="p-3 text-sm">
-                            <form method="post" action="{% url 'logout' %}">
-                                {% csrf_token %}
-                                <input class="cursor-pointer" type="submit" value="Logout">
-                            </form>
-                        </a>
+                        <a class="p-3 text-sm" hx-post="{% url 'logout' %}"
+                           hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+                           hx-swap="none"
+                           hx-on::after-request="window.location.pathname = '{% url 'home' %}'">Logout</a>
                     </li>
                 </ul>
             </div>
