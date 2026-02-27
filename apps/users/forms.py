@@ -1,5 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm, BaseUserCreationForm
+from django_countries.fields import CountryField
+from django_countries.widgets import CountrySelectWidget
 
 from .models import MyUser
 
@@ -70,6 +72,12 @@ class RegisterForm(BaseUserCreationForm):
         label="Lastname(s)",
         required=True,
         widget=forms.TextInput(attrs={"class": "input w-full mt-2", "id": "last_name"}),
+    )
+    country = CountryField(blank=True, blank_label="Select a Country").formfield(
+        widget=CountrySelectWidget(
+            layout="{widget}",
+            attrs={"class": "select w-full mt-2"},
+        )
     )
 
     class Meta:

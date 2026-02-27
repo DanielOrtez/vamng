@@ -1,5 +1,6 @@
 from django.core.exceptions import ValidationError
 from django.db import models
+from django_countries.fields import CountryField
 
 
 class TimeStampedModel(models.Model):
@@ -18,7 +19,7 @@ class Airport(TimeStampedModel):
     iata = models.CharField(max_length=3, blank=True)
     name = models.CharField(max_length=255)
     city = models.CharField(max_length=255)
-    country = models.CharField(max_length=2)
+    country = CountryField()
     lat = models.DecimalField(max_digits=9, decimal_places=6)
     lon = models.DecimalField(max_digits=9, decimal_places=6)
 
@@ -33,7 +34,7 @@ class Airline(TimeStampedModel):
     name = models.CharField(max_length=255)
     icao = models.CharField(max_length=4, unique=True)
     iata = models.CharField(max_length=3, blank=True)
-    country = models.CharField(max_length=2)
+    country = CountryField()
     lock = models.CharField(max_length=1, primary_key=True, default="X", null=False)
 
     def save(self, *args, **kwargs):

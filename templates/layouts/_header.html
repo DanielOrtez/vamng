@@ -68,7 +68,7 @@
         {% else %}
             <a class="btn btn-primary {% if request.resolver_match.url_name == 'login' %} btn-disabled {% endif %} mr-2 font-semibold"
                href="{% url 'login' %}">Login</a>
-            <a class="btn btn-neutral {% if request.request.resolver_match.url_name == '/register/' %} btn-disabled {% endif %} font-semibold"
+            <a class="btn btn-neutral {% if request.resolver_match.url_name == 'register' %} btn-disabled {% endif %} font-semibold"
                href="{% url 'register' %}">Register</a>
         {% endif %}
     </div>

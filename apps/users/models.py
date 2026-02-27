@@ -2,6 +2,7 @@ import uuid
 
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django_countries.fields import CountryField
 
 from apps.core.models import TimeStampedModel
 
@@ -13,7 +14,7 @@ class MyUser(AbstractUser):
     )
     email = models.CharField(verbose_name="email address", max_length=255, unique=True)
 
-    country = models.CharField(max_length=2, blank=True)
+    country = CountryField()
     total_hours = models.IntegerField(default=0)
     curr_airport = models.ForeignKey(
         "core.Airport", on_delete=models.SET_NULL, null=True

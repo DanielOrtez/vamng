@@ -22,8 +22,8 @@
                     {% for route in routes %}
                         <tr>
                             <th>{{ route.code }}</th>
-                            <td>{{ route.departure_airport }}</td>
-                            <td>{{ route.arrival_airport }}</td>
+                            <td><i class="{{ route.departure_airport.country.flag_css }}"></i> {{ route.departure_airport }}</td>
+                            <td><i class="{{ route.arrival_airport.country.flag_css }}"></i> {{ route.arrival_airport }}</td>
                             <td>{{ route.flight_time|duration }}</td>
                             <td>
                                 {% for fleet_type in route.fleet_allowed.all %}
