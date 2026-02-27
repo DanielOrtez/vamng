@@ -1,8 +1,10 @@
+from django.contrib.auth import get_user_model
 from django.db import models
 from django.utils import timezone
 
 from apps.core.models import TimeStampedModel
-from config.settings import AUTH_USER_MODEL
+
+User = get_user_model()
 
 
 # Create your models here.
@@ -41,7 +43,7 @@ class Route(TimeStampedModel):
 
 class Bid(TimeStampedModel):
     booked_by = models.OneToOneField(
-        AUTH_USER_MODEL,
+        User,
         on_delete=models.CASCADE,
         related_name="active_bid",
     )

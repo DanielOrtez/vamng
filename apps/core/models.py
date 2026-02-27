@@ -32,7 +32,7 @@ class Airport(TimeStampedModel):
 
 class Airline(TimeStampedModel):
     name = models.CharField(max_length=255)
-    icao = models.CharField(max_length=4, unique=True)
+    icao = models.CharField(max_length=3, unique=True)
     iata = models.CharField(max_length=3, blank=True)
     country = CountryField()
     lock = models.CharField(max_length=1, primary_key=True, default="X", null=False)
