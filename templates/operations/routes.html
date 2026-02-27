@@ -1,0 +1,44 @@
+{% extends "_base.html" %}
+{% load core_filters %}
+
+{% block title %}
+    Routes
+{% endblock %}
+
+{% block content %}
+    <section class="container m-auto">
+        <div class="bg-base-200 rounded-box border border-base-300 p-4">
+            <table class="table border-b-2 border-base-100">
+                <thead>
+                    <tr>
+                        <th>Code</th>
+                        <th>Departure</th>
+                        <th>Arrival</th>
+                        <th>Flight Time</th>
+                        <th>Fleet</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for route in routes %}
+                        <tr>
+                            <th>{{ route.code }}</th>
+                            <td>{{ route.departure_airport }}</td>
+                            <td>{{ route.arrival_airport }}</td>
+                            <td>{{ route.flight_time|duration }}</td>
+                            <td>
+                                {% for fleet_type in route.fleet_allowed.all %}
+                                    <span class="badge badge-xs">{{ fleet_type.icao_code }}</span>
+                                {% endfor %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div class="flex justify-center mt-2">
+                <div class="join">
+                    {% include "layouts/_paginator.html" with paginator=routes elided_range=elided_range %}
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

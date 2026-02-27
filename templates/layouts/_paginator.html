@@ -1,0 +1,19 @@
+{% if paginator.has_previous %}
+    <a href="?page={{ paginator.previous_page_number }}" class="join-item btn">« Previous</a>
+{% else %}
+    <button class="join-item btn btn-disabled">« Previous</button>
+{% endif %}
+{% for page_num in elided_range %}
+    {% if page_num == routes.paginator.ELLIPSIS %}
+        <button class="join-item btn btn-disabled">{{ page_num }}</button>
+    {% elif page_num == paginator.number %}
+        <button class="join-item btn btn-active">{{ page_num }}</button>
+    {% else %}
+        <a href="?page={{ page_num }}" class="join-item btn">{{ page_num }}</a>
+    {% endif %}
+{% endfor %}
+{% if paginator.has_next %}
+    <a href="?page={{ paginator.next_page_number }}" class="join-item btn">Next »</a>
+{% else %}
+    <button class="join-item btn btn-disabled">Next »</button>
+{% endif %}
