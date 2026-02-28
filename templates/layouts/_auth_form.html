@@ -3,6 +3,7 @@
     <div class="bg-base-200 border-base-300 w-sm lg:w-lg rounded-box border p-4 lg:mt-8">
         <form action="{{ form_action }}" method="post" class="grid gap-4 p-4">
             {% csrf_token %}
+            <input type="hidden" name="next" value="{{ next }}">
 
             {% for field in form %}
                 <div>
