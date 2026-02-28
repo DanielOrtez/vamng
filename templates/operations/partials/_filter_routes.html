@@ -1,0 +1,26 @@
+{% partialdef input %}
+    <input type="text" class="input w-full" id="{{ name }}" oninput="this.name = this.value ? '{{ name }}' : ''"
+            {% if is_booking %} hx-get="{% url 'book_flight' %}" {% else %} hx-get="{% url 'routes' %}" {% endif %}
+           hx-trigger="keyup changed delay:500ms, keyup[key=='Enter']"
+           hx-target="#table" hx-push-url="true">
+{% endpartialdef %}
+
+<div class="bg-base-200 rounded-box border border-base-300 p-4 lg:mt-8 order-1 lg:order-2 h-fit">
+    <h1 class="font-semibold text-lg pb-4">Filters</h1>
+    <fieldset class="fieldset" id="filters">
+        {% if not is_booking %}
+            <label for="departure_airport" class="label">Departure Airport</label>
+            {% with name="departure_airport" %}
+                {% partial input %}
+            {% endwith %}
+        {% endif %}
+
+        <label for="arrival_airport" class="label mt-4">Arrival Airport</label>
+        {% with name="arrival_airport" %}
+            {% partial input %}
+        {% endwith %}
+
+        <label for="fleet_type" class="label mt-4">Aircraft Type</label>
+        <select type="text" class="select w-full" id="fleet_type"></select>
+    </fieldset>
+</div>

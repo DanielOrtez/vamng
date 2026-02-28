@@ -7,6 +7,7 @@ from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.views import View
 
+from .filters import RouteFilter
 from .helpers import paginate_model, render_page_or_htmx
 from .models import Bid, Route
 
@@ -17,7 +18,8 @@ def index_routes(request):
         "departure_airport", "arrival_airport"
     ).prefetch_related("fleet_allowed")
 
-    routes, elided_range = paginate_model(request, all_routes, 7)
+    f_routes = RouteFilter(request.GET, all_routes)
+    routes, elided_range = paginate_model(request, f_routes.qs)
 
     return render_page_or_htmx(
         request,
@@ -40,13 +42,14 @@ def select_fleet(request, route_id):
 
 class BookFlightView(LoginRequiredMixin, View):
     def get(self, request):
-        routes = (
+        user_routes = (
             Route.objects.filter(departure_airport=request.user.curr_airport)
             .select_related("departure_airport", "arrival_airport")
             .prefetch_related("fleet_allowed")
         )
 
-        routes, elided_range = paginate_model(request, routes, 2)
+        f_routes = RouteFilter(request.GET, user_routes)
+        routes, elided_range = paginate_model(request, f_routes.qs)
 
         return render_page_or_htmx(
             request,

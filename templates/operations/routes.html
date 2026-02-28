@@ -5,10 +5,11 @@
 {% endblock %}
 
 {% block content %}
-    <section class="container m-auto">
-        <h1 class="font-bold text-3xl my-4 lg:my-0">Routes</h1>
-        <div class="bg-base-200 rounded-box border border-base-300 p-4 lg:mt-8" id="table">
-            {% include "operations/partials/_table_routes.html" %}
+    <section class="grid grid-cols-1 lg:grid-cols-4 gap-y-4 gap-x-0 lg:gap-x-4 m-auto lg:w-6/8">
+        <div class="bg-base-200 col-span-3 rounded-box border border-base-300 p-4 lg:mt-8 order-2 lg:order-1 h-fit">
+            <h1 class="font-bold text-3xl pb-4">Routes</h1>
+            <div class="overflow-x-auto" id="table">{% include "operations/partials/_table_routes.html" %}</div>
         </div>
+        {% include "operations/partials/_filter_routes.html" %}
     </section>
 {% endblock %}

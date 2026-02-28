@@ -1,10 +1,12 @@
 {% load core_filters %}
 
-<table class="table table-fixed border-b-2 border-base-100">
+<table class="table border-b-2 border-base-100">
     <thead>
         <tr>
             <th>Code</th>
-            <th>Departure</th>
+            {% if not is_booking %}
+                <th>Departure</th>
+            {% endif %}
             <th>Arrival</th>
             <th>Flight Time</th>
             <th>Fleet</th>
@@ -17,8 +19,10 @@
         {% for route in routes %}
             <tr>
                 <th class="py-5">{{ route.code }}</th>
-                <td class="truncate"><i
-                        class="{{ route.departure_airport.country.flag_css }}"></i> {{ route.departure_airport }}</td>
+                {% if not is_booking %}
+                    <td class="truncate"><i
+                            class="{{ route.departure_airport.country.flag_css }}"></i> {{ route.departure_airport }}</td>
+                {% endif %}
                 <td class="truncate"><i
                         class="{{ route.arrival_airport.country.flag_css }}"></i> {{ route.arrival_airport }}</td>
                 <td>{{ route.flight_time|duration }}</td>
@@ -30,7 +34,7 @@
                 {% if is_booking %}
                     <td><a hx-get="{% url 'select_fleet' route.id %}"
                            hx-target="#main_container"
-                           class="btn btn-success font-light">Book</a></td>
+                           class="btn btn-success btn-sm font-light">Book</a></td>
                 {% endif %}
             </tr>
         {% endfor %}
