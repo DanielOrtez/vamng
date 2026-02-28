@@ -1,37 +1,81 @@
-from django.contrib.auth.decorators import login_required
-from django.core.paginator import Paginator
-from django.shortcuts import redirect, render
+import datetime
 
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import HttpResponse
+from django.shortcuts import redirect, render
+from django.urls import reverse
+from django.views import View
+
+from .helpers import paginate_model, render_page_or_htmx
 from .models import Bid, Route
 
 
 # Create your views here.
-def routes(request):
+def index_routes(request):
     all_routes = Route.objects.select_related(
         "departure_airport", "arrival_airport"
     ).prefetch_related("fleet_allowed")
 
-    paginator = Paginator(all_routes, 25)
-    page_routes = paginator.get_page(request.GET.get("page", 1))
+    routes, elided_range = paginate_model(request, all_routes, 7)
 
-    elided_range = paginator.get_elided_page_range(number=page_routes.number)
-
-    return render(
+    return render_page_or_htmx(
         request,
         "operations/routes.html",
-        {"routes": page_routes, "elided_range": elided_range},
+        "operations/partials/_table_routes.html",
+        routes=routes,
+        elided_range=elided_range,
     )
 
 
 @login_required(login_url="/login/")
-def book_flight(request):
-    routes_from_curr_loc = Route.objects.filter(
-        departure_airport=request.user.curr_airport
-    )
+def select_fleet(request, route_id):
+    route = Route.objects.get(id=route_id)
+    fleets = route.fleet_allowed.all()
 
     return render(
-        request, "operations/book_flight.html", {"routes": routes_from_curr_loc}
+        request, "operations/select_fleet.html", {"fleets": fleets, "route": route}
     )
+
+
+class BookFlightView(LoginRequiredMixin, View):
+    def get(self, request):
+        routes = (
+            Route.objects.filter(departure_airport=request.user.curr_airport)
+            .select_related("departure_airport", "arrival_airport")
+            .prefetch_related("fleet_allowed")
+        )
+
+        routes, elided_range = paginate_model(request, routes, 2)
+
+        return render_page_or_htmx(
+            request,
+            "operations/book_flight.html",
+            "operations/partials/_table_routes.html",
+            routes=routes,
+            elided_range=elided_range,
+            is_booking=True,
+        )
+
+    def post(self, request):
+        response = HttpResponse()
+
+        route_id = request.POST.get("route_id")
+        fleet_id = request.POST.get("fleet_id")
+
+        if not route_id or not fleet_id:
+            response.headers["HX-Redirect"] = reverse("book_flight")
+            return response
+
+        Bid.objects.create(
+            booked_by=request.user,
+            route_id=route_id,
+            fleet_type_id=fleet_id,
+            expires_at=datetime.datetime.now(),
+        )
+
+        response.headers["HX-Redirect"] = reverse("profile")
+        return response
 
 
 @login_required(login_url="/login/")

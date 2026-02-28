@@ -1,5 +1,6 @@
 {% if paginator.has_previous %}
-    <a href="?page={{ paginator.previous_page_number }}" class="join-item btn">« Previous</a>
+    <a class="join-item btn" hx-get="?page={{ paginator.previous_page_number }}"
+       hx-target="#table" hx-push-url="true">« Previous</a>
 {% else %}
     <button class="join-item btn btn-disabled">« Previous</button>
 {% endif %}
@@ -9,11 +10,13 @@
     {% elif page_num == paginator.number %}
         <button class="join-item btn btn-active">{{ page_num }}</button>
     {% else %}
-        <a href="?page={{ page_num }}" class="join-item btn">{{ page_num }}</a>
+        <a class="join-item btn" hx-get="?page={{ page_num }}" hx-target="#table"
+           hx-push-url="true">{{ page_num }}</a>
     {% endif %}
 {% endfor %}
 {% if paginator.has_next %}
-    <a href="?page={{ paginator.next_page_number }}" class="join-item btn">Next »</a>
+    <a class="join-item btn" hx-get="?page={{ paginator.next_page_number }}" hx-target="#table"
+       hx-push-url="true">Next »</a>
 {% else %}
     <button class="join-item btn btn-disabled">Next »</button>
 {% endif %}

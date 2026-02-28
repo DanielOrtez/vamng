@@ -1,0 +1,29 @@
+{% load core_filters %}
+
+<h1 class="font-bold text-center lg:text-left text-3xl my-4 lg:my-0">Book {{ route.code }}</h1>
+<div class="bg-base-200 rounded-box border border-base-300 p-4 lg:mt-8">
+    <table class="table table-fixed border-b-2 border-base-100">
+        <thead>
+            <tr>
+                <th>Aircraft</th>
+                <th>ICAO Code</th>
+                <th>CI</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for fleet in fleets %}
+                <tr>
+                    <th>{{ fleet.name }}</th>
+                    <td>{{ fleet.icao_code }}</td>
+                    <td>{{ fleet.ci }}</td>
+                    <td>
+                        <a class="btn btn-success font-light" hx-post="{% url 'book_flight' %}" hx-swap="none"
+                           hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+                           hx-vals='{"route_id": "{{ route.id }}", "fleet_id": "{{ fleet.id }}"}'>Select</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
