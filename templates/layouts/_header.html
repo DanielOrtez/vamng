@@ -1,73 +1,91 @@
 {% partialdef navbar_items %}
     <li><a>About us</a></li>
-    <li>
-        <details>
-            <summary>Operations</summary>
-            <ul class="p-2 lg:bg-base-300 lg:w-40 lg:z-1">
-                <li><a href="{% url 'routes' %}">Routes</a></li>
-                <li><a>Pilots</a></li>
-                <li><a>Fleet</a></li>
-            </ul>
-        </details>
+    <li class="dropdown relative inline-flex [--auto-close:inside] [--offset:9] [--placement:bottom-end]">
+        <button id="dropdown-link" type="button"
+                class="dropdown-toggle dropdown-open:bg-base-content/10 dropdown-open:text-base-content"
+                aria-haspopup="menu" aria-expanded="false" aria-label="Dropdown">
+            Operations
+            <span class="icon-[tabler--chevron-down] dropdown-open:rotate-180 size-4"></span>
+        </button>
+        <ul class="dropdown-menu dropdown-open:opacity-100 hidden min-w-32" role="menu" aria-orientation="vertical"
+            aria-labelledby="dropdown-link">
+            <li><a href="{% url 'routes' %}" class="dropdown-item">Routes</a></li>
+            <li><a class="dropdown-item">Pilots</a></li>
+            <li><a class="dropdown-item">Fleet</a></li>
+        </ul>
     </li>
     {% if user.is_authenticated and not user.active_bid %}
-        <li>
-            <details>
-                <summary>Pilot Actions</summary>
-                <ul class="p-2 lg:bg-base-300 lg:w-40 lg:z-1">
-                    <li><a href="{% url 'book_flight' %}">Book Flight</a></li>
-                </ul>
-            </details>
+        <li class="dropdown relative inline-flex [--auto-close:inside] [--offset:9] [--placement:bottom-end]">
+            <button id="dropdown-link" type="button"
+                    class="dropdown-toggle dropdown-open:bg-base-content/10 dropdown-open:text-base-content"
+                    aria-haspopup="menu" aria-expanded="false" aria-label="Dropdown">
+                Pilot Actions
+                <span class="icon-[tabler--chevron-down] dropdown-open:rotate-180 size-4"></span>
+            </button>
+            <ul class="dropdown-menu dropdown-open:opacity-100 hidden min-w-32" role="menu" aria-orientation="vertical"
+                aria-labelledby="dropdown-link">
+                <li><a href="{% url 'book_flight' %}" class="dropdown-item">Book a Flight</a></li>
+            </ul>
         </li>
     {% endif %}
 {% endpartialdef %}
 
-<header class="navbar bg-base-300 shadow-sm">
-    <div class="navbar-start">
-        <div class="dropdown">
-            <div tabindex="0" role="button" class="btn btn-ghost lg:hidden">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-                     stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                 d="M4 6h16M4 12h8m-8 6h16"></path>
-                </svg>
-            </div>
-            <ul tabindex="-1"
-                class="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow font-item font-semibold">
-                {% partial navbar_items %}
-            </ul>
-        </div>
-        <div class="btn btn-ghost text-xl font-title"><a href="/">VAMng</a></div>
+<nav class="navbar rounded-box flex w-full items-center justify-between gap-2 shadow-base-300/20 shadow-sm">
+    <div class="navbar-start max-md:w-1/4">
+        <a href="{% url 'home' %}"
+           class="link text-base-content link-neutral text-xl font-bold no-underline font-title">VAMng</a>
     </div>
-    <div class="navbar-center hidden lg:flex">
-        <ul class="menu menu-horizontal px-1 font-item font-semibold z-1">
+
+    <div class="navbar-center max-md:hidden">
+        <ul class="menu menu-horizontal p-0 font-medium">
             {% partial navbar_items %}
         </ul>
     </div>
-    <div class="navbar-end">
+
+    <div class="navbar-end items-center gap-4">
+        <div class="dropdown relative inline-flex md:hidden">
+            <button id="dropdown-default" type="button" class="dropdown-toggle btn btn-text btn-secondary btn-square"
+                    aria-haspopup="menu" aria-expanded="false" aria-label="Dropdown">
+                <span class="icon-[tabler--menu-2] dropdown-open:hidden size-5"></span>
+                <span class="icon-[tabler--x] dropdown-open:block hidden size-5"></span>
+            </button>
+            <ul class="dropdown-menu dropdown-open:opacity-100 hidden min-w-60 font-item" role="menu"
+                aria-orientation="vertical"
+                aria-labelledby="dropdown-default">
+                {% partial navbar_items %}
+            </ul>
+        </div>
+
         {% if user.is_authenticated %}
             <div class="dropdown dropdown-end">
-                <div tabindex="0" role="button" class="btn btn-ghost p-0">
-                    <ul class="menu p-0"><li><details><summary>{{ user.first_name }}</summary></details></li></ul>
-                </div>
-                <ul class="menu menu-sm dropdown-content bg-base-300 rounded-box z-1 mt-3 w-52 p-2 shadow font-item font-semibold"
-                    tabindex="-1">
-                    <li><a href="{% url 'profile' %}" class="p-3 text-sm">Profile</a></li>
-                    {% if user.is_staff %}
-                        <li><a href="{% url 'admin:index' %}" class="p-3 text-sm">Admin</a></li>
-                    {% endif %}
-                    <li>
-                        <a class="p-3 text-sm" hx-post="{% url 'logout' %}"
-                           hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
-                           hx-swap="none"
-                           hx-on::after-request="window.location.pathname = '{% url 'home' %}'">Logout</a>
+                <ul class="menu md:menu-horizontal gap-2 p-0 text-base max-md:mt-2 font-item">
+                    <li class="dropdown relative inline-flex [--auto-close:inside] [--offset:8] [--placement:bottom-end]">
+                        <button id="dropdown-link" type="button"
+                                class="dropdown-toggle dropdown-open:bg-base-content/10 dropdown-open:text-base-content"
+                                aria-haspopup="menu" aria-expanded="false" aria-label="Dropdown">
+                            {{ user.username }}
+                            <span class="icon-[tabler--chevron-down] dropdown-open:rotate-180 size-4"></span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-open:opacity-100 hidden min-w-32" role="menu"
+                            aria-orientation="vertical" aria-labelledby="dropdown-link">
+                            <li><a href="{% url 'profile' %}" class="dropdown-item">Profile</a></li>
+                            <li>
+                                <a class="p-3 text-sm" hx-post="{% url 'logout' %}"
+                                   hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
+                                   hx-swap="none"
+                                   hx-on::after-request="window.location.pathname = '{% url 'home' %}'">Logout</a>
+                            </li>
+                        </ul>
                     </li>
                 </ul>
             </div>
         {% else %}
-            <a class="btn btn-primary {% if request.resolver_match.url_name == 'login' %} btn-disabled {% endif %} mr-2 font-semibold"
-               href="{% url 'login' %}">Login</a>
-            <a class="btn btn-neutral {% if request.resolver_match.url_name == 'register' %} btn-disabled {% endif %} font-semibold"
-               href="{% url 'register' %}">Register</a>
+            <div class="flex">
+                <a class="btn btn-primary {% if request.resolver_match.url_name == 'login' %} btn-disabled {% endif %} mr-2 font-semibold"
+                   href="{% url 'login' %}">Login</a>
+                <a class="btn btn-neutral {% if request.resolver_match.url_name == 'register' %} btn-disabled {% endif %} font-semibold"
+                   href="{% url 'register' %}">Register</a>
+            </div>
         {% endif %}
     </div>
-</header>
+</nav>

@@ -2,12 +2,14 @@
   "name": "vamng",
   "private": true,
   "scripts": {
-    "watch:css": "bunx @tailwindcss/cli -i static/css/app.css -o static/css/output.css --watch",
-    "build:css": "bunx @tailwindcss/cli -i static/css/app.css -o static/css/output.css --minify"
+    "watch:css": "bunx @tailwindcss/cli -i static/app.css -o static/css/output.css --watch",
+    "build:css": "bunx @tailwindcss/cli -i static/app.css -o static/css/output.css --minify"
   },
   "devDependencies": {
+    "@iconify/json": "^2.2.444",
+    "@iconify/tailwind4": "^1.2.1",
     "@tailwindcss/cli": "^4.2.1",
-    "daisyui": "^5.5.19",
+    "flyonui": "^2.4.1",
     "tailwindcss": "^4.2.1"
   }
 }

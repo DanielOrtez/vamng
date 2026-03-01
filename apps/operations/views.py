@@ -9,7 +9,7 @@ from django.views import View
 
 from .filters import RouteFilter
 from .helpers import paginate_model, render_page_or_htmx
-from .models import Bid, Route
+from .models import Bid, FleetType, Route
 
 
 # Create your views here.
@@ -21,12 +21,15 @@ def index_routes(request):
     f_routes = RouteFilter(request.GET, all_routes)
     routes, elided_range = paginate_model(request, f_routes.qs)
 
+    fleets = FleetType.objects.values("id", "icao_code")
+
     return render_page_or_htmx(
         request,
         "operations/routes.html",
         "operations/partials/_table_routes.html",
         routes=routes,
         elided_range=elided_range,
+        fleets=fleets,
     )
 
 
@@ -51,6 +54,8 @@ class BookFlightView(LoginRequiredMixin, View):
         f_routes = RouteFilter(request.GET, user_routes)
         routes, elided_range = paginate_model(request, f_routes.qs)
 
+        fleets = FleetType.objects.values("id", "icao_code")
+
         return render_page_or_htmx(
             request,
             "operations/book_flight.html",
@@ -58,6 +63,7 @@ class BookFlightView(LoginRequiredMixin, View):
             routes=routes,
             elided_range=elided_range,
             is_booking=True,
+            fleets=fleets,
         )
 
     def post(self, request):

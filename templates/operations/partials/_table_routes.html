@@ -1,45 +1,51 @@
 {% load core_filters %}
 
-<table class="table border-b-2 border-base-100">
-    <thead>
-        <tr>
+<div class="card-body">
+   <table class="table">
+      <thead>
+         <tr class="border-0 bg-base-300/20 *:first:rounded-s-md *:last:rounded-e-md">
             <th>Code</th>
-            {% if not is_booking %}
-                <th>Departure</th>
-            {% endif %}
-            <th>Arrival</th>
+             {% if not is_booking %}
+                 <th>Departure</th>
+             {% endif %}
+             <th>Arrival</th>
             <th>Flight Time</th>
             <th>Fleet</th>
-            {% if is_booking %}
-                <th>Action</th>
-            {% endif %}
-        </tr>
-    </thead>
-    <tbody>
-        {% for route in routes %}
-            <tr>
+             {% if is_booking %}
+                 <th>Action</th>
+             {% endif %}
+         </tr>
+      </thead>
+      <tbody>
+         {% for route in routes %}
+             <tr>
                 <th class="py-5">{{ route.code }}</th>
-                {% if not is_booking %}
-                    <td class="truncate"><i
-                            class="{{ route.departure_airport.country.flag_css }}"></i> {{ route.departure_airport }}</td>
-                {% endif %}
-                <td class="truncate"><i
-                        class="{{ route.arrival_airport.country.flag_css }}"></i> {{ route.arrival_airport }}</td>
+                 {% if not is_booking %}
+                     <td class="truncate">
+                   <i class="{{ route.departure_airport.country.flag_css }}"></i> {{ route.departure_airport }}
+                </td>
+                 {% endif %}
+                 <td class="truncate">
+                   <i class="{{ route.arrival_airport.country.flag_css }}"></i> {{ route.arrival_airport }}
+                </td>
                 <td>{{ route.flight_time|duration }}</td>
                 <td>
-                    {% for fleet_type in route.fleet_allowed.all %}
-                        <span class="badge badge-xs">{{ fleet_type.icao_code }}</span>
-                    {% endfor %}
+                   {% for fleet_type in route.fleet_allowed.all %}
+                       <span class="badge badge-soft badge-sm badge-info">{{ fleet_type.icao_code }}</span>
+                   {% endfor %}
                 </td>
-                {% if is_booking %}
-                    <td><a hx-get="{% url 'select_fleet' route.id %}"
-                           hx-target="#main_container"
-                           class="btn btn-success btn-sm font-light">Book</a></td>
-                {% endif %}
-            </tr>
-        {% endfor %}
-    </tbody>
-</table>
-<div class="flex justify-center mt-2">
-    <div class="join">{% include "layouts/_paginator.html" with paginator=routes elided_range=elided_range %}</div>
+                 {% if is_booking %}
+                     <td>
+                         <a hx-get="{% url 'select_fleet' route.id %}"
+                            hx-target="#main_container"
+                            class="btn btn-primary btn-sm font-light"
+                         >Book</a>
+                     </td>
+                 {% endif %}
+             </tr>
+         {% endfor %}
+      </tbody>
+   </table>
 </div>
+<div class="card-footer mx-auto">{% include "layouts/_paginator.html" with paginator=routes elided_range=elided_range %}</div>
+
