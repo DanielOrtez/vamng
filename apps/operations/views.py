@@ -47,7 +47,7 @@ class BookFlightView(LoginRequiredMixin, View):
     def get(self, request):
         user_routes = (
             Route.objects.filter(departure_airport=request.user.curr_airport)
-            .select_related("departure_airport", "arrival_airport")
+            .select_related("arrival_airport")
             .prefetch_related("fleet_allowed")
         )
 

@@ -17,16 +17,16 @@
          </tr>
       </thead>
       <tbody>
-         {% for route in routes %}
-             <tr>
+        {% for route in routes %}
+            <tr>
                 <th class="py-5">{{ route.code }}</th>
-                 {% if not is_booking %}
-                     <td class="truncate">
-                   <i class="{{ route.departure_airport.country.flag_css }}"></i> {{ route.departure_airport }}
-                </td>
-                 {% endif %}
-                 <td class="truncate">
-                   <i class="{{ route.arrival_airport.country.flag_css }}"></i> {{ route.arrival_airport }}
+                {% if not is_booking %}
+                    <td class="truncate">
+                         <i class="{{ route.departure_airport.country.flag_css }}"></i> {{ route.departure_airport }}
+                    </td>
+                {% endif %}
+                <td class="truncate">
+                    <i class="{{ route.arrival_airport.country.flag_css }}"></i> {{ route.arrival_airport }}
                 </td>
                 <td>{{ route.flight_time|duration }}</td>
                 <td>
@@ -34,16 +34,20 @@
                        <span class="badge badge-soft badge-sm badge-info">{{ fleet_type.icao_code }}</span>
                    {% endfor %}
                 </td>
-                 {% if is_booking %}
-                     <td>
-                         <a hx-get="{% url 'select_fleet' route.id %}"
-                            hx-target="#main_container"
-                            class="btn btn-primary btn-sm font-light"
-                         >Book</a>
-                     </td>
-                 {% endif %}
-             </tr>
-         {% endfor %}
+                {% if is_booking %}
+                    <td>
+                        <a hx-get="{% url 'select_fleet' route.id %}"
+                           hx-target="#main_container"
+                           class="btn btn-primary btn-sm font-light"
+                        >Book</a>
+                    </td>
+                {% endif %}
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="5" class="text-center text-xl">No Routes Found</td>
+            </tr>
+        {% endfor %}
       </tbody>
    </table>
 </div>

@@ -2,7 +2,7 @@
 @import "flyonui/variants.css";
 
 @plugin "flyonui" {
-    themes: spotify --default;
+    themes: black --default;
 }
 @plugin "@iconify/tailwind4";
 

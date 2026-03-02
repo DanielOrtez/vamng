@@ -6,34 +6,36 @@
 
 {% block content %}
     <section class="container m-auto">
-        <div class="bg-base-200 rounded-box border border-base-300 p-4">
-            <section class="flex justify-between">
-                <h1 class="text-xl">{{ user }} <span class="badge badge-neutral ml-2">{{ user.rank }}</span></h1>
-                <div><button class="btn btn-xs btn-primary">Edit Profile</button></div>
-            </section>
-            <section class="flex justify-between mt-2 items-end">
-                <div class="flex flex-col">
-                    <span class="text-sm text-gray-500">{{ user.email }}</span>
-                    <span class="text-sm text-gray-500">Member since {{ user.date_joined|date:"d M Y" }}</span>
-                </div>
-                <i class="flag3x {{ user.country.flag_css }}"></i>
-            </section>
+        <div class="card border-base-content/25 border">
+            <div class="card-header flex justify-between">
+                <h1 class="card-title">{{ user }} <span class="badge badge-neutral ml-2">{{ user.rank }}</span></h1>
+                <button class="btn btn-soft btn-xs btn-primary">Edit Profile</button>
+            </div>
+            <div class="card-body">
+                <section class="flex justify-between items-end">
+                    <div class="flex flex-col">
+                        <span class="text-sm text-gray-500">{{ user.email }}</span>
+                        <span class="text-sm text-gray-500">Member since {{ user.date_joined|date:"d M Y" }}</span>
+                    </div>
+                    <i class="flag3x {{ user.country.flag_css }}"></i>
+                </section>
+            </div>
         </div>
 
-        <div class=" grid grid-cols-3 p-4 mt-2 gap-4">
-            <div class="stats shadow bg-base-200">
+        <div class=" grid grid-cols-3 p-4 gap-4">
+            <div class="stats stats-border">
                 <div class="stat">
                     <div class="stat-title">Total Hours</div>
                     <div class="stat-value">{{ user.total_hours }}H</div>
                 </div>
             </div>
-            <div class="stats shadow bg-base-200">
+            <div class="stats stats-border">
                 <div class="stat">
                     <div class="stat-title">Current Airport</div>
                     <div class="stat-value">{{ user.curr_airport.icao }}</div>
                 </div>
             </div>
-            <div class="stats shadow bg-base-200">
+            <div class="stats stats-border">
                 <div class="stat">
                     <div class="stat-title">Total Flights</div>
                     <div class="stat-value">0</div>
@@ -42,31 +44,36 @@
         </div>
 
         {% if user.active_bid %}
-            <div class="bg-base-200 rounded-box border border-base-300 p-4 mt-2">
-                <section class="flex justify-between">
+            <div class="card border-base-content/25 border">
+                <div class="card-header flex justify-between">
                     <h1 class="text-xl">Your Current Booked Flight</h1>
-                    <div>
-                        <form action="{% url 'cancel_bid' %}" method="post">
-                            {% csrf_token %}
-                            <input class="btn btn-xs btn-error" type="submit" value="Cancel Bid">
-                        </form>
-                    </div>
-                </section>
-                <section class="flex flex-col text-gray-500">
-                    <h4 class="text-base">{{ user.active_bid.route.code }}</h4>
-                    <div class="flex justify-between text-sm">
-                        <p>{{ user.active_bid.route.departure_airport }}</p>
-                        <p>{{ user.active_bid.route.arrival_airport }}</p>
-                    </div>
-                    <div class="flex justify-between text-sm">
-                        <p>Fleet Type Booked: {{ user.active_bid.fleet_type.icao_code }}</p>
-                        <p>Flight Time: {{ user.active_bid.route.flight_time }}</p>
-                    </div>
-                </section>
+                    <section class="flex justify-between">
+                        <h1 class="text-xl"></h1>
+                        <div>
+                            <form action="{% url 'cancel_bid' %}" method="post">
+                                {% csrf_token %}
+                                <input class="btn btn-soft btn-xs btn-error" type="submit" value="Cancel Bid">
+                            </form>
+                        </div>
+                    </section>
+                </div>
+                <div class="card-body">
+                    <section class="text-gray-500">
+                        <h3 class="text-base">{{ user.active_bid.route.code }}</h3>
+                        <div class="flex justify-between text-sm">
+                            <span>{{ user.active_bid.route.departure_airport }}</span>
+                            <span>{{ user.active_bid.route.arrival_airport }}</span>
+                        </div>
+                        <div class="flex justify-between text-sm">
+                            <span>Fleet Type Booked: {{ user.active_bid.fleet_type.icao_code }}</span>
+                            <span>Flight Time: {{ user.active_bid.route.flight_time }}</span>
+                        </div>
+                    </section>
+                </div>
             </div>
         {% endif %}
 
-        <div class="bg-base-200 rounded-box border border-base-300 p-4 mt-4">
+        <div class="card border-base-content/25 border p-4 mt-4">
             <h1 class="text-xl">Flights</h1>
         </div>
     </section>

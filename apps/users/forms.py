@@ -12,7 +12,7 @@ class LoginForm(AuthenticationForm):
         required=True,
         widget=forms.EmailInput(
             attrs={
-                "class": "input w-full mt-2",
+                "class": "input input-lg w-full mt-2",
                 "autocomplete": "email",
                 "autofocus": True,
                 "placeholder": "Email",
@@ -25,7 +25,7 @@ class LoginForm(AuthenticationForm):
         strip=False,
         widget=forms.PasswordInput(
             attrs={
-                "class": "input w-full mt-2",
+                "class": "input input-lg w-full mt-2",
                 "autocomplete": "current-password",
                 "placeholder": "Password",
                 "id": "password",
@@ -38,7 +38,11 @@ class RegisterForm(BaseUserCreationForm):
     email = forms.EmailField(
         required=True,
         widget=forms.EmailInput(
-            attrs={"class": "input w-full mt-2", "id": "email", "autocomplete": "email"}
+            attrs={
+                "class": "input input-lg w-full mt-2",
+                "id": "email",
+                "autocomplete": "email",
+            }
         ),
     )
     password1 = forms.CharField(
@@ -46,7 +50,7 @@ class RegisterForm(BaseUserCreationForm):
         required=True,
         strip=False,
         widget=forms.PasswordInput(
-            attrs={"class": "input w-full mt-2", "id": "password1"}
+            attrs={"class": "input input-lg w-full mt-2", "id": "password1"}
         ),
     )
     password2 = forms.CharField(
@@ -54,7 +58,7 @@ class RegisterForm(BaseUserCreationForm):
         required=True,
         strip=False,
         widget=forms.PasswordInput(
-            attrs={"class": "input w-full mt-2", "id": "password2"}
+            attrs={"class": "input input-lg w-full mt-2", "id": "password2"}
         ),
     )
     first_name = forms.CharField(
@@ -62,7 +66,7 @@ class RegisterForm(BaseUserCreationForm):
         required=True,
         widget=forms.TextInput(
             attrs={
-                "class": "input w-full mt-2",
+                "class": "input input-lg w-full mt-2",
                 "id": "first_name",
                 "autocomplete": "given-name",
             }
@@ -71,12 +75,14 @@ class RegisterForm(BaseUserCreationForm):
     last_name = forms.CharField(
         label="Lastname(s)",
         required=True,
-        widget=forms.TextInput(attrs={"class": "input w-full mt-2", "id": "last_name"}),
+        widget=forms.TextInput(
+            attrs={"class": "input input-lg w-full mt-2", "id": "last_name"}
+        ),
     )
     country = CountryField(blank=True, blank_label="Select a Country").formfield(
         widget=CountrySelectWidget(
             layout="{widget}",
-            attrs={"class": "select w-full mt-2"},
+            attrs={"class": "select select-lg w-full mt-2"},
         )
     )
 
