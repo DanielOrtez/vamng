@@ -22,7 +22,7 @@
                             <td>{{ fleet.icao_code }}</td>
                             <td>{{ fleet.ci }}</td>
                             <td>
-                                <a class="btn btn-primary btn-sm font-light" hx-post="{% url 'book_flight' %}"
+                                <a class="btn btn-primary btn-sm font-light" hx-post="{% url 'bid' %}"
                                    hx-swap="none" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
                                    hx-vals='{"route_id": "{{ route.id }}", "fleet_id": "{{ fleet.id }}"}'>Select</a>
                             </td>

@@ -7,7 +7,7 @@
 {% block content %}
     <section class="container m-auto">
         <div class="card border-base-content/25 border">
-            <div class="card-header flex justify-between">
+            <div class="card-header flex justify-between pb-1">
                 <h1 class="card-title">{{ user }} <span class="badge badge-neutral ml-2">{{ user.rank }}</span></h1>
                 <button class="btn btn-soft btn-xs btn-primary">Edit Profile</button>
             </div>
@@ -17,12 +17,12 @@
                         <span class="text-sm text-gray-500">{{ user.email }}</span>
                         <span class="text-sm text-gray-500">Member since {{ user.date_joined|date:"d M Y" }}</span>
                     </div>
-                    <i class="flag3x {{ user.country.flag_css }}"></i>
+                    <i class="flag3x {{ user.country.flag_css }} self-center"></i>
                 </section>
             </div>
         </div>
 
-        <div class=" grid grid-cols-3 p-4 gap-4">
+        <div class="grid grid-cols-3 p-4 gap-4">
             <div class="stats stats-border">
                 <div class="stat">
                     <div class="stat-title">Total Hours</div>
@@ -32,7 +32,7 @@
             <div class="stats stats-border">
                 <div class="stat">
                     <div class="stat-title">Current Airport</div>
-                    <div class="stat-value">{{ user.curr_airport.icao }}</div>
+                    <div class="stat-value">{{ user.curr_airport.icao|default:"None" }}</div>
                 </div>
             </div>
             <div class="stats stats-border">
@@ -44,16 +44,14 @@
         </div>
 
         {% if user.active_bid %}
-            <div class="card border-base-content/25 border">
-                <div class="card-header flex justify-between">
+            <div class="card border-base-content/25 border mb-4">
+                <div class="card-header flex justify-between pb-1">
                     <h1 class="text-xl">Your Current Booked Flight</h1>
                     <section class="flex justify-between">
                         <h1 class="text-xl"></h1>
                         <div>
-                            <form action="{% url 'cancel_bid' %}" method="post">
-                                {% csrf_token %}
-                                <input class="btn btn-soft btn-xs btn-error" type="submit" value="Cancel Bid">
-                            </form>
+                            <a class="btn btn-soft btn-xs btn-error" hx-delete="{% url 'bid' %}"
+                               hx-swap="none" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>Cancel Bid</a>
                         </div>
                     </section>
                 </div>
@@ -73,7 +71,7 @@
             </div>
         {% endif %}
 
-        <div class="card border-base-content/25 border p-4 mt-4">
+        <div class="card border-base-content/25 border p-4">
             <h1 class="text-xl">Flights</h1>
         </div>
     </section>

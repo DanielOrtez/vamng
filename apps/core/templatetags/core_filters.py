@@ -11,3 +11,8 @@ def duration(value: timedelta):
     hours = total_seconds // 3600
     minutes = (total_seconds % 3600) // 60
     return f"{hours:02d}:{minutes:02d}H"
+
+
+@register.filter
+def get_list(req, key: str) -> list:
+    return req.getlist(key)

@@ -3,34 +3,67 @@ import datetime
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
-from django.shortcuts import redirect, render
+from django.shortcuts import render
 from django.urls import reverse
-from django.views import View
+from django.views.generic import View
+from django_filters.views import FilterView
 
 from .filters import RouteFilter
-from .helpers import paginate_model, render_page_or_htmx
 from .models import Bid, FleetType, Route
 
 
 # Create your views here.
-def index_routes(request):
-    all_routes = Route.objects.select_related(
-        "departure_airport", "arrival_airport"
-    ).prefetch_related("fleet_allowed")
+class BaseRouteView(FilterView):
+    model = Route
+    context_object_name = "routes"
+    paginate_by = 25
+    filterset_class = RouteFilter
 
-    f_routes = RouteFilter(request.GET, all_routes)
-    routes, elided_range = paginate_model(request, f_routes.qs)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
 
-    fleets = FleetType.objects.values("id", "icao_code")
+        paginator = context["paginator"]
+        page = context["page_obj"]
 
-    return render_page_or_htmx(
-        request,
-        "operations/routes.html",
-        "operations/partials/_table_routes.html",
-        routes=routes,
-        elided_range=elided_range,
-        fleets=fleets,
-    )
+        fleets = FleetType.objects.values("id", "icao_code")
+
+        context["elided_range"] = paginator.get_elided_page_range(number=page.number)
+
+        context["show_departure"] = True
+
+        context["fleets"] = fleets
+
+        return context
+
+    def get_template_names(self):
+        if self.request.headers.get("HX-Request"):
+            return ["operations/partials/_table_routes.html"]
+
+        return ["operations/routes.html"]
+
+
+class RouteView(BaseRouteView):
+    def get_queryset(self):
+        return Route.objects.select_related(
+            "departure_airport", "arrival_airport"
+        ).prefetch_related("fleet_allowed")
+
+
+class BookRouteView(LoginRequiredMixin, BaseRouteView):
+    def get_queryset(self):
+        user_location = self.request.user.curr_airport
+        qs = Route.objects.all()
+        if user_location:
+            qs = Route.objects.filter(departure_airport=user_location)
+
+        return qs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["is_booking"] = True
+        context["show_departure"] = not bool(self.request.user.curr_airport)
+
+        return context
 
 
 @login_required(login_url="/login/")
@@ -43,29 +76,7 @@ def select_fleet(request, route_id):
     )
 
 
-class BookFlightView(LoginRequiredMixin, View):
-    def get(self, request):
-        user_routes = (
-            Route.objects.filter(departure_airport=request.user.curr_airport)
-            .select_related("arrival_airport")
-            .prefetch_related("fleet_allowed")
-        )
-
-        f_routes = RouteFilter(request.GET, user_routes)
-        routes, elided_range = paginate_model(request, f_routes.qs)
-
-        fleets = FleetType.objects.values("id", "icao_code")
-
-        return render_page_or_htmx(
-            request,
-            "operations/book_flight.html",
-            "operations/partials/_table_routes.html",
-            routes=routes,
-            elided_range=elided_range,
-            is_booking=True,
-            fleets=fleets,
-        )
-
+class BidView(LoginRequiredMixin, View):
     def post(self, request):
         response = HttpResponse()
 
@@ -86,11 +97,12 @@ class BookFlightView(LoginRequiredMixin, View):
         response.headers["HX-Redirect"] = reverse("profile")
         return response
 
+    def delete(self, request):
+        response = HttpResponse()
 
-@login_required(login_url="/login/")
-def cancel_bid(request):
-    if request.method == "POST":
         bid = Bid.objects.get(booked_by=request.user.id)
-        bid.delete()
+        if bid:
+            bid.delete()
 
-    return redirect(request.META.get("HTTP_REFERER"))
+        response.headers["HX-Redirect"] = reverse("profile")
+        return response

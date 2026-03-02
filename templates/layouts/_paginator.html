@@ -1,6 +1,6 @@
 <nav class="flex items-center gap-x-2">
-    {% if paginator.has_previous %}
-        <button type="button" class="btn btn-text" hx-get="?page={{ paginator.previous_page_number }}"
+    {% if page_obj.has_previous %}
+        <button type="button" class="btn btn-text" hx-get="?page={{ page_obj.previous_page_number }}"
                 hx-target="#table" hx-push-url="true" hx-include="#filters">
             <span class="icon-[tabler--chevron-left] size-5 rtl:rotate-180"></span>
             Previous
@@ -12,19 +12,19 @@
         </button>
     {% endif %}
     {% for page_num in elided_range %}
-        {% if page_num == routes.paginator.ELLIPSIS %}
+        {% if page_num == paginator.ELLIPSIS %}
             <button class="btn btn-disabled">
                 <span class="icon-[tabler--dots] size-5 group-hover:hidden"></span>
             </button>
-        {% elif page_num == paginator.number %}
+        {% elif page_num == page_obj.number %}
             <button class="btn btn-text text-bg-primary">{{ page_num }}</button>
         {% else %}
             <a class="btn btn-text" hx-get="?page={{ page_num }}" hx-target="#table"
                hx-push-url="true" hx-include="#filters">{{ page_num }}</a>
         {% endif %}
     {% endfor %}
-    {% if paginator.has_next %}
-        <a class="btn btn-text" hx-get="?page={{ paginator.next_page_number }}" hx-target="#table"
+    {% if page_obj.has_next %}
+        <a class="btn btn-text" hx-get="?page={{ page_obj.next_page_number }}" hx-target="#table"
            hx-push-url="true" hx-include="#filters">
             Next
             <span class="icon-[tabler--chevron-right] size-5 rtl:rotate-180"></span>

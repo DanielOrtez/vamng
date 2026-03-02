@@ -1,11 +1,11 @@
 {% load core_filters %}
 
-<div class="card-body">
+<main>
    <table class="table">
       <thead>
          <tr class="border-0 bg-base-300/20 *:first:rounded-s-md *:last:rounded-e-md">
             <th>Code</th>
-             {% if not is_booking %}
+             {% if show_departure %}
                  <th>Departure</th>
              {% endif %}
              <th>Arrival</th>
@@ -20,7 +20,7 @@
         {% for route in routes %}
             <tr>
                 <th class="py-5">{{ route.code }}</th>
-                {% if not is_booking %}
+                {% if show_departure %}
                     <td class="truncate">
                          <i class="{{ route.departure_airport.country.flag_css }}"></i> {{ route.departure_airport }}
                     </td>
@@ -49,7 +49,8 @@
             </tr>
         {% endfor %}
       </tbody>
-   </table>
-</div>
-<div class="card-footer mx-auto">{% include "layouts/_paginator.html" with paginator=routes elided_range=elided_range %}</div>
-
+    </table>
+    <div class="flex justify-center">
+        {% include "layouts/_paginator.html" %}
+    </div>
+</main>

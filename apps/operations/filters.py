@@ -1,6 +1,6 @@
 import django_filters
 
-from apps.operations.models import FleetType
+from .models import FleetType, Route
 
 
 class RouteFilter(django_filters.FilterSet):
