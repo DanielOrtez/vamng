@@ -1,5 +1,6 @@
 {% partialdef navbar_items %}
     <li><a>About us</a></li>
+    <li><a>Pilots</a></li>
     <li class="dropdown relative inline-flex [--auto-close:inside] [--offset:9] [--placement:bottom-end]">
         <button id="dropdown-link" type="button"
                 class="dropdown-toggle dropdown-open:bg-base-content/10 dropdown-open:text-base-content"
@@ -10,7 +11,6 @@
         <ul class="dropdown-menu dropdown-open:opacity-100 hidden min-w-32" role="menu" aria-orientation="vertical"
             aria-labelledby="dropdown-link">
             <li><a href="{% url 'routes' %}" class="dropdown-item">Routes</a></li>
-            <li><a class="dropdown-item">Pilots</a></li>
             <li><a class="dropdown-item">Fleet</a></li>
         </ul>
     </li>
