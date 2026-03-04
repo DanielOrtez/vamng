@@ -62,6 +62,7 @@ class BookRouteView(LoginRequiredMixin, BaseRouteView):
         context = super().get_context_data(**kwargs)
         context["is_booking"] = True
         context["show_departure"] = not bool(self.request.user.curr_airport)
+        context["title"] = "Book a Flight"
 
         return context
 
