@@ -5,6 +5,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.urls import reverse
+from django.utils import timezone
 from django.views.generic import View
 from django_filters.views import FilterView
 
@@ -94,7 +95,7 @@ class BidView(LoginRequiredMixin, View):
             booked_by=request.user,
             route_id=route_id,
             fleet_type_id=fleet_id,
-            expires_at=datetime.datetime.now(),
+            expires_at=timezone.now() + datetime.timedelta(days=1),
         )
 
         response.headers["HX-Redirect"] = reverse("profile")

@@ -1,12 +1,27 @@
-from datetime import timedelta
+from datetime import datetime, timedelta
 
-from pydantic import BaseModel
+from ninja import Schema
+
+from .core import AirportSchema
 
 
-class BidResponse(BaseModel):
-    id: int
+class FleetTypeSchema(Schema):
+    name: str
+    icao_code: str
+    pax_capacity: int
+    cargo_capacity: int
+    ci: int
+
+
+class RouteSchema(Schema):
     code: str
-    departure_airport: str
-    arrival_airport: str
-    fleet: str
+    departure_airport: AirportSchema
+    arrival_airport: AirportSchema
     flight_time: timedelta
+
+
+class BidSchema(Schema):
+    id: int
+    route: RouteSchema
+    fleet_type: FleetTypeSchema
+    expires_at: datetime

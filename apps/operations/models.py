@@ -56,6 +56,16 @@ class Route(TimeStampedModel):
         ordering = ["code"]
 
 
+class BidManager(models.Manager):
+    def with_related(self):
+        return self.select_related(
+            "route",
+            "route__departure_airport",
+            "route__arrival_airport",
+            "fleet_type",
+        )
+
+
 class Bid(TimeStampedModel):
     booked_by = models.OneToOneField(
         User,
@@ -65,6 +75,8 @@ class Bid(TimeStampedModel):
     route = models.ForeignKey(Route, on_delete=models.CASCADE)
     fleet_type = models.ForeignKey(FleetType, on_delete=models.CASCADE)
     expires_at = models.DateTimeField()
+
+    objects = BidManager()
 
     def is_expired(self):
         return timezone.now() > self.expires_at
