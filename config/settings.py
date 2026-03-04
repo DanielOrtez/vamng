@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
 import os
+import sys
 from pathlib import Path
 
 from dotenv import load_dotenv
@@ -48,10 +49,11 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django_countries",
     "apps.core.apps.CoreConfig",
     "apps.users.apps.UsersConfig",
     "apps.operations.apps.OperationsConfig",
-    "django_countries",
+    "apps.pireps.apps.PirepsConfig",
 ]
 
 MIDDLEWARE = [
@@ -140,3 +142,15 @@ STATIC_URL = "static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
 STATICFILES_DIRS = [BASE_DIR / "static"]
+
+# =
+
+INTERNAL_IPS = ["127.0.0.1"]
+
+ENABLE_DEBUG_TOOLBAR = (
+    DEBUG and "test" not in sys.argv or "PYTEST_VERSION" not in os.environ
+)
+if ENABLE_DEBUG_TOOLBAR:
+    INSTALLED_APPS += ["debug_toolbar"]
+    MIDDLEWARE += ["debug_toolbar.middleware.DebugToolbarMiddleware"]
+    DEBUG_TOOLBAR_CONFIG = {"ROOT_TAG_EXTRA_ATTRS": "data-turbo-permanent hx-preserve"}

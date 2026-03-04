@@ -15,9 +15,11 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 
+from debug_toolbar.toolbar import debug_toolbar_urls
 from django.contrib import admin
 from django.urls import include, path
 
+from apps.api.urls import api
 from apps.core.views import index
 
 admin.site.site_header = "VAMng Administration"
@@ -29,4 +31,5 @@ urlpatterns = [
     path("", include("apps.users.urls")),
     path("", index, name="home"),
     path("operations/", include("apps.operations.urls")),
-]
+    path("api/v1/", api.urls),
+] + debug_toolbar_urls()
