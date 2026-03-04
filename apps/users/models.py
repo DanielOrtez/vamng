@@ -18,7 +18,7 @@ class MyUser(AbstractUser):
     country = CountryField()
     total_hours = models.IntegerField(default=0)
     curr_airport = models.ForeignKey(
-        "core.Airport", on_delete=models.SET_NULL, null=True
+        "core.Airport", on_delete=models.SET_NULL, null=True, db_index=True
     )
     rank = models.ForeignKey("Rank", on_delete=models.SET_NULL, null=True)
 

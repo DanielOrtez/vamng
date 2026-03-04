@@ -9,7 +9,7 @@ from django.views.generic import View
 from django_filters.views import FilterView
 
 from .filters import RouteFilter
-from .models import Bid, FleetType, Route
+from .models import Bid, FleetType, Route, RouteManager
 
 
 # Create your views here.
@@ -18,6 +18,9 @@ class BaseRouteView(FilterView):
     context_object_name = "routes"
     paginate_by = 25
     filterset_class = RouteFilter
+
+    def get_queryset(self) -> RouteManager:
+        return Route.objects.with_related()
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -43,25 +46,23 @@ class BaseRouteView(FilterView):
 
 
 class RouteView(BaseRouteView):
-    def get_queryset(self):
-        return Route.objects.select_related(
-            "departure_airport", "arrival_airport"
-        ).prefetch_related("fleet_allowed")
+    pass
 
 
 class BookRouteView(LoginRequiredMixin, BaseRouteView):
     def get_queryset(self):
-        user_location = self.request.user.curr_airport
-        qs = Route.objects.all()
+        user_location = self.request.user.curr_airport_id
         if user_location:
-            qs = Route.objects.filter(departure_airport=user_location)
+            qs = Route.objects.from_departure_airport(user_location)
+        else:
+            qs = super().get_queryset()
 
         return qs
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["is_booking"] = True
-        context["show_departure"] = not bool(self.request.user.curr_airport)
+        context["show_departure"] = not bool(self.request.user.curr_airport_id)
         context["title"] = "Book a Flight"
 
         return context
@@ -69,11 +70,12 @@ class BookRouteView(LoginRequiredMixin, BaseRouteView):
 
 @login_required(login_url="/login/")
 def select_fleet(request, route_id):
-    route = Route.objects.get(id=route_id)
-    fleets = route.fleet_allowed.all()
+    fleets = FleetType.objects.filter(route__id=route_id)
 
     return render(
-        request, "operations/select_fleet.html", {"fleets": fleets, "route": route}
+        request,
+        "operations/select_fleet.html",
+        {"fleets": fleets, "route_id": route_id},
     )
 
 
@@ -101,9 +103,7 @@ class BidView(LoginRequiredMixin, View):
     def delete(self, request):
         response = HttpResponse()
 
-        bid = Bid.objects.get(booked_by=request.user.id)
-        if bid:
-            bid.delete()
+        Bid.objects.filter(booked_by=request.user.id).delete()
 
         response.headers["HX-Redirect"] = reverse("profile")
         return response

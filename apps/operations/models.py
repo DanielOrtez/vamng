@@ -22,17 +22,32 @@ class FleetType(TimeStampedModel):
         ordering = ["icao_code"]
 
 
+class RouteManager(models.Manager):
+    def with_related(self):
+        return self.select_related(
+            "departure_airport", "arrival_airport"
+        ).prefetch_related("fleet_allowed")
+
+    def from_departure_airport(self, departure_airport):
+        return self.with_related().filter(departure_airport=departure_airport)
+
+
 class Route(TimeStampedModel):
-    code = models.CharField(max_length=10, unique=True)
+    code = models.CharField(max_length=10, unique=True, db_index=True)
     departure_airport = models.ForeignKey(
-        "core.Airport", on_delete=models.CASCADE, related_name="departures"
+        "core.Airport",
+        on_delete=models.CASCADE,
+        related_name="departures",
+        db_index=True,
     )
     arrival_airport = models.ForeignKey(
-        "core.Airport", on_delete=models.CASCADE, related_name="arrivals"
+        "core.Airport", on_delete=models.CASCADE, related_name="arrivals", db_index=True
     )
     flight_time = models.DurationField()
     fleet_allowed = models.ManyToManyField(FleetType)
     is_active = models.BooleanField(default=True)
+
+    objects = RouteManager()
 
     def __str__(self):
         return f"{self.code} -> {self.departure_airport} ({self.arrival_airport})"

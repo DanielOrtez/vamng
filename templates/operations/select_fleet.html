@@ -3,7 +3,7 @@
 <div class="col-start-2 col-end-4">
     <div class="card border-base-content/25 border">
         <div class="card-header">
-            <h1 class="card-title">Book {{ route.code }}</h1>
+            <h1 class="card-title">Select Fleet</h1>
         </div>
         <div class="card-body">
             <table class="table">
@@ -24,7 +24,7 @@
                             <td>
                                 <a class="btn btn-primary btn-sm font-light" hx-post="{% url 'bid' %}"
                                    hx-swap="none" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'
-                                   hx-vals='{"route_id": "{{ route.id }}", "fleet_id": "{{ fleet.id }}"}'>Select</a>
+                                   hx-vals='{"route_id": "{{ route_id }}", "fleet_id": "{{ fleet.id }}"}'>Select</a>
                             </td>
                         </tr>
                     {% endfor %}
