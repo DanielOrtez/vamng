@@ -27,7 +27,6 @@ class MyUser(AbstractUser):
 
     @staticmethod
     def generate_callsign():
-        """Asigns a random callsign to the username field on user creation."""
         airline = Airline.objects.get()
         airline_icao = airline.icao if airline else "VAM"
 
@@ -42,6 +41,11 @@ class MyUser(AbstractUser):
                 next_number = ln_int + 1
 
         return f"{airline_icao}{next_number:03d}"
+
+    def save(self, *args, **kwargs):
+        if not self.username:
+            self.username = self.generate_callsign()
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.username} ({self.email})"
