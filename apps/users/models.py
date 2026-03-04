@@ -43,6 +43,11 @@ class MyUser(AbstractUser):
 
         return f"{airline_icao}{next_number:03d}"
 
+    def save(self, *args, **kwargs):
+        if not self.username:
+            self.username = self.generate_callsign()
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return f"{self.username} ({self.email})"
 
