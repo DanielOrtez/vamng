@@ -7,7 +7,7 @@
 {% block content %}
     <section class="grid grid-cols-1 lg:grid-cols-4 gap-y-4 gap-x-0 lg:gap-x-4 m-auto min-w-3/4" id="main_container">
         <div class="card col-span-3 order-2 lg:order-1 h-fit border-base-content/25 border">
-            <div class="card-header"><h1 class="card-title">Routes</h1></div>
+            <div class="card-header"><h1 class="card-title">{{ title }}</h1></div>
             <div class="card-body overflow-x-auto"
                  id="table">{% include "operations/partials/_table_routes.html" %}</div>
         </div>
