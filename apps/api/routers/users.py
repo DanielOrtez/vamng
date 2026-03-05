@@ -8,7 +8,7 @@ from apps.operations.models import Bid
 user_router = Router(tags=["User"])
 
 
-@user_router.get("/bookings", response=list[BidSchema])
+@user_router.get("{user_id}/bookings", response=list[BidSchema])
 def get_user_bookings(request, user_id: uuid.UUID) -> list[BidSchema]:
     bids = (
         Bid.objects.with_related()

@@ -1,12 +1,10 @@
 import datetime
 
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse
-from django.shortcuts import render
 from django.urls import reverse
 from django.utils import timezone
-from django.views.generic import View
+from django.views.generic import ListView, View
 from django_filters.views import FilterView
 
 from .filters import RouteFilter
@@ -69,15 +67,18 @@ class BookRouteView(LoginRequiredMixin, BaseRouteView):
         return context
 
 
-@login_required(login_url="/login/")
-def select_fleet(request, route_id):
-    fleets = FleetType.objects.filter(route__id=route_id)
+class SelectFleetView(LoginRequiredMixin, ListView):
+    model = FleetType
+    context_object_name = "fleets"
+    template_name = "operations/select_fleet.html"
 
-    return render(
-        request,
-        "operations/select_fleet.html",
-        {"fleets": fleets, "route_id": route_id},
-    )
+    def get_queryset(self):
+        return FleetType.objects.filter(route__id=self.kwargs["route_id"])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["route_id"] = self.kwargs["route_id"]
+        return context
 
 
 class BidView(LoginRequiredMixin, View):

@@ -17,16 +17,23 @@ class Pirep(TimeStampedModel):
     distance = models.FloatField()
 
 
+class FlightManager(models.Manager):
+    def active_flights(self):
+        return self.filter(~models.Q(status=Flight.FlightStatus.CANCELED))
+
+
 class Flight(TimeStampedModel):
     class FlightStatus(models.TextChoices):
         SCHEDULED = "scheduled", "Scheduled"
         IN_PROGRESS = "in_progress", "In Progress"
         COMPLETED = "completed", "Completed"
-        CANCELLED = "cancelled", "Cancelled"
+        CANCELED = "canceled", "Canceled"
 
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     fleet = models.OneToOneField("operations.FleetType", on_delete=models.CASCADE)
     route = models.OneToOneField("operations.Route", on_delete=models.CASCADE)
+
+    objects = FlightManager()
 
     status = models.CharField(
         max_length=20, choices=FlightStatus, default=FlightStatus.SCHEDULED

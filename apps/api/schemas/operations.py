@@ -17,7 +17,6 @@ class RouteSchema(Schema):
     code: str
     departure_airport: AirportSchema
     arrival_airport: AirportSchema
-    flight_time: timedelta
 
 
 class BidSchema(Schema):

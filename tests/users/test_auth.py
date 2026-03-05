@@ -100,3 +100,26 @@ class TestRegistration:
 
         assert response.status_code == 200
         assert User.objects.count() == 1
+
+
+@pytest.mark.django_db
+class TestLogout:
+    def test_logout(self, client, new_user, user_data):
+        login_url = reverse("login")
+        logout_url = reverse("logout")
+        profile_url = reverse("profile")
+
+        client.post(
+            login_url, {"username": new_user.email, "password": user_data["password1"]}
+        )
+
+        response = client.post(logout_url)
+
+        assert response.status_code == 302
+        assert response.url == "/"
+        assert "_auth_user_id" not in client.session
+
+        response = client.get(profile_url)
+        expected_url = f"{login_url}?next={profile_url}"
+        assert response.status_code == 302
+        assert response.url == expected_url
