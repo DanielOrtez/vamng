@@ -1,31 +1,25 @@
 from django.contrib.auth import get_user_model
-from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect
+from django.urls import reverse_lazy
+from django.views.generic import CreateView, DetailView, UpdateView
 
-from .forms import LoginForm, RegisterForm
-from .utils import not_logged_in
+from .forms import LoginForm, RegisterForm, UpdateProfileForm
 
 User = get_user_model()
 
 
 # Create your views here.
-@user_passes_test(not_logged_in, login_url="/", redirect_field_name=None)
-def register(request):
-    if request.method == "POST":
-        register_form = RegisterForm(request.POST)
+class UserRegisterView(CreateView):
+    template_name = "users/auth/register.html"
+    success_url = reverse_lazy("login")
+    form_class = RegisterForm
 
-        if register_form.is_valid():
-            register_form.save()
-            return redirect("login")
-    else:
-        register_form = RegisterForm()
-
-    return render(request, "users/auth/register.html", {"form": register_form})
-
-
-class UserRegisterView:
-    pass
+    def get(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return redirect("profile")
+        return super().get(request, *args, **kwargs)
 
 
 class UserLoginView(LoginView):
@@ -34,17 +28,19 @@ class UserLoginView(LoginView):
     redirect_authenticated_user = True
 
 
-@login_required(login_url="/login/")
-def profile(request):
-    user = (
-        User.objects.filter(id=request.user.id)
-        .select_related(
-            "curr_airport",
-            "active_bid",
-            "active_bid__route",
-            "active_bid__route__departure_airport",
-            "active_bid__route__arrival_airport",
-        )
-        .get()
-    )
-    return render(request, "users/profile.html", {"user": user})
+class ProfileView(LoginRequiredMixin, DetailView):
+    model = User
+    template_name = "users/profile.html"
+    context_object_name = "user"
+
+    def get_object(self, queryset=None):
+        return User.active.get_profile(self.request.user.id)
+
+
+class EditProfileView(LoginRequiredMixin, UpdateView):
+    form_class = UpdateProfileForm
+    template_name = "users/edit_profile.html"
+    success_url = reverse_lazy("profile")
+
+    def get_object(self, queryset=None):
+        return self.request.user

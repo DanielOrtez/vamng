@@ -1,0 +1,24 @@
+<div class="flex flex-col items-center container m-auto">
+    <div class="card lg:w-xl rounded-box border">
+        <div class="card-header">
+            <h1 class="card-title">Edit your Profile</h1>
+        </div>
+        <div class="card-body">
+            <form action="{% url 'edit_profile' %}" method="post" class="grid gap-4">
+                {% csrf_token %}
+                <input type="hidden" name="next" value="{{ next }}">
+
+                {% for field in form %}
+                    <div>
+                        <label class="label" for="{{ field.name }}">{{ field.label }}</label>
+                        {{ field }}
+                    </div>
+                {% endfor %}
+                <div class="flex justify-end gap-4 mt-2">
+                    <input class="btn btn-lg btn-soft btn-warning" type="submit" value="Edit Profile">
+                    <a href="{% url 'profile' %}" class="btn btn-lg btn-soft btn-error">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

@@ -20,14 +20,13 @@ def user_data():
         "email": "testuser@vamng.es",
         "password1": "test_password123",
         "password2": "test_password123",
-        "first_name": "Test",
-        "last_name": "User",
+        "full_name": "Test User",
         "country": "ES",
     }
 
 
 @pytest.fixture
-def new_user(db, user_data):
+def new_user(user_data):
     return User.objects.create_user(
         username="TST000", email=user_data["email"], password=user_data["password1"]
     )

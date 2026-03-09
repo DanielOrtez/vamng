@@ -5,11 +5,12 @@
 {% endblock %}
 
 {% block content %}
-    <section class="container m-auto">
+    <section class="container m-auto" id="main_container">
         <div class="card border-base-content/25 border">
             <div class="card-header flex justify-between pb-1">
                 <h1 class="card-title">{{ user }} <span class="badge badge-neutral ml-2">{{ user.rank }}</span></h1>
-                <button class="btn btn-soft btn-xs btn-primary">Edit Profile</button>
+                <button hx-get="{% url 'edit_profile' %}" hx-target="#main_container"
+                        class="btn btn-soft btn-xs btn-primary">Edit Profile</button>
             </div>
             <div class="card-body">
                 <section class="flex justify-between items-end">

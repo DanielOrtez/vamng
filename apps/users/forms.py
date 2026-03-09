@@ -1,9 +1,14 @@
 from django import forms
-from django.contrib.auth.forms import AuthenticationForm, BaseUserCreationForm
+from django.contrib.auth import get_user_model
+from django.contrib.auth.forms import (
+    AuthenticationForm,
+    BaseUserCreationForm,
+    UserChangeForm,
+)
 from django_countries.fields import CountryField
 from django_countries.widgets import CountrySelectWidget
 
-from .models import MyUser
+User = get_user_model()
 
 
 class LoginForm(AuthenticationForm):
@@ -61,8 +66,8 @@ class RegisterForm(BaseUserCreationForm):
             attrs={"class": "input input-lg w-full mt-2", "id": "password2"}
         ),
     )
-    first_name = forms.CharField(
-        label="Name(s)",
+    full_name = forms.CharField(
+        label="Full Name",
         required=True,
         widget=forms.TextInput(
             attrs={
@@ -70,13 +75,6 @@ class RegisterForm(BaseUserCreationForm):
                 "id": "first_name",
                 "autocomplete": "given-name",
             }
-        ),
-    )
-    last_name = forms.CharField(
-        label="Lastname(s)",
-        required=True,
-        widget=forms.TextInput(
-            attrs={"class": "input input-lg w-full mt-2", "id": "last_name"}
         ),
     )
     country = CountryField(blank=True, blank_label="Select a Country").formfield(
@@ -87,12 +85,48 @@ class RegisterForm(BaseUserCreationForm):
     )
 
     class Meta:
-        model = MyUser
+        model = User
         fields = (
             "email",
             "password1",
             "password2",
-            "first_name",
-            "last_name",
+            "full_name",
             "country",
         )
+
+
+class UpdateProfileForm(UserChangeForm):
+    email = forms.EmailField(
+        label="Email",
+        required=True,
+        widget=forms.EmailInput(
+            attrs={
+                "class": "input input-lg w-full mt-2",
+                "id": "email",
+                "autocomplete": "email",
+            }
+        ),
+    )
+    full_name = forms.CharField(
+        label="Full Name",
+        required=True,
+        widget=forms.TextInput(
+            attrs={
+                "class": "input input-lg w-full mt-2",
+                "id": "full_name",
+                "autocomplete": "given-name",
+            }
+        ),
+    )
+    country = CountryField(blank=True, blank_label="Select a Country").formfield(
+        widget=CountrySelectWidget(
+            layout="{widget}",
+            attrs={"class": "select select-lg w-full mt-2"},
+        )
+    )
+
+    password = None
+
+    class Meta:
+        model = User
+        fields = ("email", "full_name", "country")
