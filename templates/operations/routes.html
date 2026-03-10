@@ -1,5 +1,7 @@
 {% extends "_base.html" %}
 
+{% load core_filters %}
+
 {% block title %}
     {{ title|default:"Routes" }}
 {% endblock %}
@@ -7,9 +9,64 @@
 {% block content %}
     <section class="grid grid-cols-1 lg:grid-cols-4 gap-y-4 gap-x-0 lg:gap-x-4 m-auto min-w-3/4" id="main_container">
         <div class="card col-span-3 order-2 lg:order-1 h-fit border-base-content/25 border">
-            <div class="card-header"><h1 class="card-title">{{ title }}</h1></div>
+            <div class="card-header"><h1 class="card-title">{{ title|default:'Routes' }}</h1></div>
             <div class="card-body overflow-x-auto"
-                 id="table">{% include "operations/partials/_table_routes.html" %}</div>
+                 id="table">
+                {% partialdef table inline %}
+                    <table class="table">
+                      <thead>
+                         <tr class="border-0 bg-base-300/20 *:first:rounded-s-md *:last:rounded-e-md">
+                            <th>Code</th>
+                             {% if show_departure %}
+                                 <th>Departure</th>
+                             {% endif %}
+                             <th>Arrival</th>
+                            <th>Flight Time</th>
+                            <th>Fleet</th>
+                             {% if is_booking %}
+                                 <th>Action</th>
+                             {% endif %}
+                         </tr>
+                      </thead>
+                      <tbody>
+                        {% for route in routes %}
+                            <tr>
+                                <th class="py-5">{{ route.code }}</th>
+                                {% if show_departure %}
+                                    <td class="truncate">
+                                         <i class="{{ route.departure_airport.country.flag_css }}"></i> {{ route.departure_airport }}
+                                    </td>
+                                {% endif %}
+                                <td class="truncate">
+                                    <i class="{{ route.arrival_airport.country.flag_css }}"></i> {{ route.arrival_airport }}
+                                </td>
+                                <td>{{ route.flight_time|duration }}</td>
+                                <td>
+                                   {% for fleet_type in route.fleet_allowed.all %}
+                                       <span class="badge badge-soft badge-sm badge-info">{{ fleet_type.icao_code }}</span>
+                                   {% endfor %}
+                                </td>
+                                {% if is_booking %}
+                                    <td>
+                                        <a hx-get="{% url 'select_fleet' route.id %}"
+                                           hx-target="#main_container"
+                                           class="btn btn-primary btn-sm font-light"
+                                        >Book</a>
+                                    </td>
+                                {% endif %}
+                            </tr>
+                        {% empty %}
+                            <tr>
+                                <td colspan="5" class="text-center text-xl">No Routes Found</td>
+                            </tr>
+                        {% endfor %}
+                      </tbody>
+                    </table>
+                {% endpartialdef %}
+                <div class="flex justify-center">
+                    {% include "layouts/_paginator.html" %}
+                </div>
+            </div>
         </div>
         {% include "operations/partials/_filter_routes.html" %}
     </section>

@@ -39,7 +39,7 @@ class BaseRouteView(FilterView):
 
     def get_template_names(self):
         if self.request.headers.get("HX-Request"):
-            return ["operations/partials/_table_routes.html"]
+            return ["operations/routes.html#table"]
 
         return ["operations/routes.html"]
 
