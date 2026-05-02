@@ -20,7 +20,8 @@
         "laravel/tinker": "^3.0",
         "laravel/wayfinder": "^0.1.14",
         "nunomaduro/essentials": "^1.2",
-        "spatie/laravel-permission": "^7.3"
+        "spatie/laravel-permission": "^7.3",
+        "webpatser/laravel-countries": "^2.1"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^3.7",
