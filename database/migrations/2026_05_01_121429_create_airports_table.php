@@ -18,7 +18,7 @@ return new class extends Migration
             $table->char('icao_code', 4)->unique();
             $table->char('iata_code', 3)->nullable();
             $table->string('name');
-            $table->string('iso_country');
+            $table->char('iso_2_country', 2);
             $table->integer('elevation_ft')->nullable();
             $table->double('latitude');
             $table->double('longitude');

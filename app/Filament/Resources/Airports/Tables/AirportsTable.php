@@ -10,6 +10,7 @@ use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
+use Squire\Models\Country;
 
 final class AirportsTable
 {
@@ -24,6 +25,7 @@ final class AirportsTable
                     ->label('ICAO'),
                 TextColumn::make('iso_country')
                     ->sortable()
+                    ->formatStateUsing(fn (mixed $state): string => Country::find($state)->name ?? $state)
                     ->label('Country'),
             ])
             ->filters([

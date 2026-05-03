@@ -7,7 +7,7 @@ namespace App\Filament\Resources\Airports\Schemas;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
-use Webpatser\Countries\Models\Country;
+use Squire\Models\Country;
 
 final class AirportForm
 {
@@ -27,7 +27,7 @@ final class AirportForm
                     ->required()
                     ->maxLength(255),
                 Select::make('iso_country')
-                    ->options(Country::all()->pluck('name', 'iso_3166_2'))
+                    ->options(Country::all()->pluck('name', 'code_2'))
                     ->searchable()
                     ->required()
                     ->label('Country'),
