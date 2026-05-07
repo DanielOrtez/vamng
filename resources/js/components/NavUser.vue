@@ -1,10 +1,19 @@
 <script lang="ts" setup>
-import { ChevronsUpDown } from '@lucide/vue';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from '@/components/ui/sidebar';
-import UserInfo from '@/components/UserInfo.vue';
-import UserMenuContent from '@/components/UserMenuContent.vue';
-import useAuth from '@/composables/useAuth';
+import { ChevronsUpDown } from '@lucide/vue'
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
+import {
+    SidebarMenu,
+    SidebarMenuButton,
+    SidebarMenuItem,
+    useSidebar,
+} from '@/components/ui/sidebar'
+import UserInfo from '@/components/UserInfo.vue'
+import UserMenuContent from '@/components/UserMenuContent.vue'
+import useAuth from '@/composables/useAuth'
 
 const { user, hasPermission } = useAuth()
 const { isMobile, state } = useSidebar()
