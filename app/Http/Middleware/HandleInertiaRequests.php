@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Middleware;
 
+use App\Settings\GeneralSettings;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 use Override;
@@ -42,7 +43,7 @@ final class HandleInertiaRequests extends Middleware
     {
         return [
             ...parent::share($request),
-            'name' => config('app.name'),
+            'name' => app(GeneralSettings::class)->va_name,
             'auth' => [
                 'user' => $request->user(),
                 'userPermissions' => $request->user()?->getAllPermissions()->pluck('name'),
