@@ -62,7 +62,7 @@ final class User extends Authenticatable implements FilamentUser, MustVerifyEmai
 
     public function canAccessPanel(Panel $panel): bool
     {
-        return $this->can('access admin panel');
+        return $this->can('AccessAdminPanel:User');
     }
 
     /**

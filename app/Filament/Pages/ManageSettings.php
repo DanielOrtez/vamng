@@ -6,14 +6,18 @@ namespace App\Filament\Pages;
 
 use App\Settings\GeneralSettings;
 use BackedEnum;
+use BezhanSalleh\FilamentShield\Traits\HasPageShield;
 use Filament\Forms\Components\TextInput;
 use Filament\Pages\SettingsPage;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
+use Override;
 use UnitEnum;
 
 final class ManageSettings extends SettingsPage
 {
+    use HasPageShield;
+
     protected static ?string $navigationLabel = 'VA Settings';
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedCog6Tooth;
@@ -22,11 +26,7 @@ final class ManageSettings extends SettingsPage
 
     protected static string $settings = GeneralSettings::class;
 
-    public static function canAccess(): bool
-    {
-        return auth()->user()->can('manage-va-settings');
-    }
-
+    #[Override]
     public function form(Schema $schema): Schema
     {
         return $schema
