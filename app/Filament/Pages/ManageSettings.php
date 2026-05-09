@@ -34,6 +34,11 @@ final class ManageSettings extends SettingsPage
                 TextInput::make('va_name')
                     ->required()
                     ->label('Virtual Airline Name'),
+                TextInput::make('va_icao')
+                    ->length(3)
+                    ->autocapitalize()
+                    ->required()
+                    ->label('Virtual Airline ICAO Code'),
             ]);
     }
 }
