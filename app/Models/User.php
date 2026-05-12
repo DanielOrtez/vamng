@@ -10,6 +10,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
@@ -59,6 +60,14 @@ final class User extends Authenticatable implements FilamentUser, MustVerifyEmai
     use HasRoles;
     use Notifiable;
     use TwoFactorAuthenticatable;
+
+    /**
+     * @return HasOne<Rank, $this>
+     */
+    public function rank(): HasOne
+    {
+        return $this->hasOne(Rank::class);
+    }
 
     public function canAccessPanel(Panel $panel): bool
     {
