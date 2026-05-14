@@ -10,5 +10,6 @@ return new class extends SettingsMigration
     {
         $this->migrator->add('default.va_name', 'VAMng');
         $this->migrator->add('default.va_icao', 'VAM');
+        $this->migrator->add('default.va_default_rank', 1);
     }
 };

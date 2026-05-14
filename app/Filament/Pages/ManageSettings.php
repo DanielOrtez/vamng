@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace App\Filament\Pages;
 
+use App\Models\Rank;
 use App\Settings\GeneralSettings;
 use BackedEnum;
 use BezhanSalleh\FilamentShield\Traits\HasPageShield;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Pages\SettingsPage;
 use Filament\Schemas\Schema;
@@ -38,7 +40,13 @@ final class ManageSettings extends SettingsPage
                     ->length(3)
                     ->autocapitalize()
                     ->required()
-                    ->label('Virtual Airline ICAO Code'),
+                    ->label('Virtual Airline ICAO'),
+                Select::make('va_default_rank')
+                    ->options(Rank::query()->pluck('name', 'id'))
+                    ->preload()
+                    ->searchable()
+                    ->required()
+                    ->label('Default Rank'),
             ]);
     }
 }
