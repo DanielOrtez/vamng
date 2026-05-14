@@ -20,7 +20,8 @@ final class RanksTable
         return $table
             ->columns([
                 TextColumn::make('name'),
-                TextColumn::make('hours'),
+                TextColumn::make('hours')
+                    ->label('Hours Required'),
                 IconColumn::make('image_url')
                     ->boolean()
                     ->default(false)
