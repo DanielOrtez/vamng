@@ -26,7 +26,7 @@ final class AirportForm
                     ->columnSpanFull()
                     ->required()
                     ->maxLength(255),
-                Select::make('iso_country')
+                Select::make('iso_2_country')
                     ->options(Country::all()->pluck('name', 'code_2'))
                     ->searchable()
                     ->required()

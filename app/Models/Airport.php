@@ -7,7 +7,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 
-#[Fillable(['icao_code', 'iata_code', 'name', 'iso_country', 'elevation_ft', 'latitude', 'longitude'])]
+#[Fillable(['icao', 'iata', 'name', 'iso_2_country', 'elevation_ft', 'latitude', 'longitude'])]
 final class Airport extends Model
 {
     //

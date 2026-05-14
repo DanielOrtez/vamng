@@ -23,7 +23,7 @@ final class AirportsTable
                 TextColumn::make('icao')
                     ->searchable()
                     ->label('ICAO'),
-                TextColumn::make('iso_country')
+                TextColumn::make('iso_2_country')
                     ->sortable()
                     ->formatStateUsing(fn (mixed $state): string => Country::find($state)->name ?? $state)
                     ->label('Country'),
