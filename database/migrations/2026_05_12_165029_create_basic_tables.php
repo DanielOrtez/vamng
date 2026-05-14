@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Enums\AircraftTypeEnum;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -36,10 +37,10 @@ return new class extends Migration
 
         Schema::create('aircraft_types', function (Blueprint $table): void {
             $table->id();
-            $table->char('type', 1);
+            $table->enum('type', AircraftTypeEnum::cases());
             $table->char('icao', 4)->unique();
             $table->unsignedInteger('range_nm')->nullable();
-            $table->unsignedInteger('pax_capacity');
+            $table->unsignedInteger('pax_capacity')->nullable();
             $table->unsignedInteger('cargo_capacity')->nullable();
             $table->string('image_url')->nullable();
             $table->timestamps();
