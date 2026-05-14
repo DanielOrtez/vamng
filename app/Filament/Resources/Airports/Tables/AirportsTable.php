@@ -20,7 +20,7 @@ final class AirportsTable
             ->columns([
                 TextColumn::make('name')
                     ->searchable(),
-                TextColumn::make('icao_code')
+                TextColumn::make('icao')
                     ->searchable()
                     ->label('ICAO'),
                 TextColumn::make('iso_country')

@@ -15,11 +15,11 @@ final class AirportForm
     {
         return $schema
             ->components([
-                TextInput::make('icao_code')
+                TextInput::make('icao')
                     ->required()
                     ->maxLength(4)
                     ->label('ICAO'),
-                TextInput::make('iata_code')
+                TextInput::make('iata')
                     ->maxLength(3)
                     ->label('IATA'),
                 TextInput::make('name')
