@@ -29,8 +29,7 @@ final class RouteForm
                     ->relationship(titleAttribute: 'icao')
                     ->preload()
                     ->required()
-                    ->label('Aircraft Types')
-                    ->afterLabel(Text::make('e.g., A320')->weight(FontWeight::Bold)),
+                    ->label('Aircraft Types'),
                 Select::make('departure_airport_id')
                     ->relationship('departureAirport', 'name')
                     ->preload()
