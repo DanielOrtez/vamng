@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Enums\AircraftTypeEnum;
+use App\Enums\RouteTypeEnum;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -59,11 +60,10 @@ return new class extends Migration
 
         Schema::create('routes', function (Blueprint $table): void {
             $table->id();
-            $table->char('type', 2);
+            $table->enum('type', RouteTypeEnum::cases());
             $table->string('code');
             $table->foreignId('departure_airport_id')->constrained('airports')->cascadeOnDelete();
             $table->foreignId('arrival_airport_id')->constrained('airports')->cascadeOnDelete();
-            $table->foreignId('aircraft_type_id')->nullable()->constrained()->nullOnDelete();
             $table->integer('distance')->nullable();
             $table->text('route')->nullable();
             $table->time('departure_time')->nullable();
