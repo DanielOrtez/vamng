@@ -19,10 +19,14 @@ final class AirportForm
             ->components([
                 TextInput::make('icao')
                     ->required()
+                    ->minLength(4)
                     ->maxLength(4)
+                    ->autocapitalize()
                     ->label('ICAO'),
                 TextInput::make('iata')
+                    ->minLength(3)
                     ->maxLength(3)
+                    ->autocapitalize()
                     ->label('IATA'),
                 TextInput::make('name')
                     ->columnSpanFull()
