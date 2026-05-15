@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Resources\Routes\Schemas;
 
 use App\Enums\RouteTypeEnum;
+use App\Settings\GeneralSettings;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -45,6 +46,7 @@ final class RouteForm
                 TextInput::make('code')
                     ->alphaNum()
                     ->required()
+                    ->prefix(app(GeneralSettings::class)->va_icao)
                     ->label('Route Code')
                     ->afterLabel(
                         Text::make('Only Code. e.g., 001')
