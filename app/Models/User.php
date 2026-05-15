@@ -50,7 +50,7 @@ use Spatie\Permission\Traits\HasRoles;
  *
  * @mixin \Illuminate\Database\Eloquent\Model
  */
-#[Fillable(['name', 'email', 'password'])]
+#[Fillable(['name', 'email', 'password', 'rank_id'])]
 #[Hidden(['password', 'two_factor_secret', 'two_factor_recovery_codes', 'remember_token'])]
 final class User extends Authenticatable implements FilamentUser, MustVerifyEmail
 {

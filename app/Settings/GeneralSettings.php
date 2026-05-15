@@ -12,6 +12,8 @@ final class GeneralSettings extends Settings
 
     public string $va_icao;
 
+    public int $va_default_rank;
+
     public static function group(): string
     {
         return 'default';

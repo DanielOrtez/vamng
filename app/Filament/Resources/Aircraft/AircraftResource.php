@@ -7,9 +7,7 @@ namespace App\Filament\Resources\Aircraft;
 use App\Filament\Resources\Aircraft\Pages\CreateAircraft;
 use App\Filament\Resources\Aircraft\Pages\EditAircraft;
 use App\Filament\Resources\Aircraft\Pages\ListAircraft;
-use App\Filament\Resources\Aircraft\Pages\ViewAircraft;
 use App\Filament\Resources\Aircraft\Schemas\AircraftForm;
-use App\Filament\Resources\Aircraft\Schemas\AircraftInfolist;
 use App\Filament\Resources\Aircraft\Tables\AircraftTable;
 use App\Models\Aircraft;
 use BackedEnum;
@@ -34,11 +32,6 @@ final class AircraftResource extends Resource
         return AircraftForm::configure($schema);
     }
 
-    public static function infolist(Schema $schema): Schema
-    {
-        return AircraftInfolist::configure($schema);
-    }
-
     public static function table(Table $table): Table
     {
         return AircraftTable::configure($table);
@@ -56,7 +49,6 @@ final class AircraftResource extends Resource
         return [
             'index' => ListAircraft::route('/'),
             'create' => CreateAircraft::route('/create'),
-            'view' => ViewAircraft::route('/{record}'),
             'edit' => EditAircraft::route('/{record}/edit'),
         ];
     }

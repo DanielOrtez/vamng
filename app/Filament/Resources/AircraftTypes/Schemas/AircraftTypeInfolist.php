@@ -31,12 +31,7 @@ final class AircraftTypeInfolist
                             ->label('Aircraft Count'),
                     ])->columnSpanFull(),
                 TextEntry::make('image_url')
-                    ->default('None')
-                    ->badge(fn (string $state): bool => $state === 'None')
-                    ->color(fn (string $state): string => match ($state) {
-                        'None' => 'danger',
-                        default => '',
-                    })
+                    ->placeholder('-')
                     ->columnSpanFull()
                     ->label('Image URL'),
             ]);

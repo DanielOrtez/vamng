@@ -47,7 +47,7 @@ final class RouteForm
                     ->required()
                     ->label('Route Code')
                     ->afterLabel(
-                        Text::make('Airline ICAO is inserted automatically')
+                        Text::make('Only Code. e.g., 001')
                             ->weight(FontWeight::Bold)
                     ),
                 TextInput::make('distance')
