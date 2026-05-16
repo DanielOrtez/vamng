@@ -18,6 +18,7 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Override;
 use UnitEnum;
 
 final class AircraftTypeResource extends Resource
@@ -28,21 +29,25 @@ final class AircraftTypeResource extends Resource
 
     protected static string|UnitEnum|null $navigationGroup = 'Fleet Management';
 
+    #[Override]
     public static function form(Schema $schema): Schema
     {
         return AircraftTypeForm::configure($schema);
     }
 
+    #[Override]
     public static function infolist(Schema $schema): Schema
     {
         return AircraftTypeInfolist::configure($schema);
     }
 
+    #[Override]
     public static function table(Table $table): Table
     {
         return AircraftTypesTable::configure($table);
     }
 
+    #[Override]
     public static function getRelations(): array
     {
         return [
@@ -50,6 +55,7 @@ final class AircraftTypeResource extends Resource
         ];
     }
 
+    #[Override]
     public static function getPages(): array
     {
         return [

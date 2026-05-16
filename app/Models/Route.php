@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Override;
 
 #[Fillable([
     'type',
@@ -56,10 +57,11 @@ final class Route extends Model
     protected function routeCode(): Attribute
     {
         return Attribute::make(
-            get: fn (mixed $value, array $attributes) => app(GeneralSettings::class)->va_icao.$attributes['code'],
+            get: fn (mixed $value, array $attributes): string => app(GeneralSettings::class)->va_icao.$attributes['code'],
         );
     }
 
+    #[Override]
     protected function casts(): array
     {
         return [

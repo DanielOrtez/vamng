@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('aircraft_type_route', function (Blueprint $table) {
+        Schema::create('aircraft_type_route', function (Blueprint $table): void {
             $table->foreignId('aircraft_type_id')->constrained()->cascadeOnDelete();
             $table->foreignId('route_id')->constrained()->cascadeOnDelete();
             $table->timestamp('assigned_at')->default(now());

@@ -17,10 +17,10 @@ final class RouteInfolist
                 TextEntry::make('routeCode')
                     ->label('Route Code'),
                 TextEntry::make('departureAirport')
-                    ->formatStateUsing(fn (mixed $state): string => "{$state->name} ({$state->icao})")
+                    ->formatStateUsing(fn (mixed $state): string => sprintf('%s (%s)', $state->name, $state->icao))
                     ->label('Departure airport'),
                 TextEntry::make('arrivalAirport')
-                    ->formatStateUsing(fn (mixed $state): string => "{$state->name} ({$state->icao})")
+                    ->formatStateUsing(fn (mixed $state): string => sprintf('%s (%s)', $state->name, $state->icao))
                     ->label('Arrival airport'),
                 TextEntry::make('distance')
                     ->numeric()

@@ -17,6 +17,7 @@ use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Override;
 use UnitEnum;
 
 final class RouteResource extends Resource
@@ -27,21 +28,25 @@ final class RouteResource extends Resource
 
     protected static string|UnitEnum|null $navigationGroup = 'Airline Management';
 
+    #[Override]
     public static function form(Schema $schema): Schema
     {
         return RouteForm::configure($schema);
     }
 
+    #[Override]
     public static function infolist(Schema $schema): Schema
     {
         return RouteInfolist::configure($schema);
     }
 
+    #[Override]
     public static function table(Table $table): Table
     {
         return RoutesTable::configure($table);
     }
 
+    #[Override]
     public static function getRelations(): array
     {
         return [
@@ -49,6 +54,7 @@ final class RouteResource extends Resource
         ];
     }
 
+    #[Override]
     public static function getPages(): array
     {
         return [

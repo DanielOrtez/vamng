@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import AppLogoIcon from '@/components/AppLogoIcon.vue';
+import AppLogoIcon from '@/components/AppLogoIcon.vue'
 </script>
 
 <template>

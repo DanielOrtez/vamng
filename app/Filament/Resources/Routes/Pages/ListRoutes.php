@@ -1,15 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Filament\Resources\Routes\Pages;
 
 use App\Filament\Resources\Routes\RouteResource;
 use Filament\Actions\CreateAction;
 use Filament\Resources\Pages\ListRecords;
+use Override;
 
-class ListRoutes extends ListRecords
+final class ListRoutes extends ListRecords
 {
     protected static string $resource = RouteResource::class;
 
+    #[Override]
     protected function getHeaderActions(): array
     {
         return [
