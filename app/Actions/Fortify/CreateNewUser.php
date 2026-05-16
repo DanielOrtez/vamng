@@ -33,6 +33,8 @@ final class CreateNewUser implements CreatesNewUsers
             'email' => $input['email'],
             'password' => $input['password'],
             'rank_id' => app(GeneralSettings::class)->va_default_rank,
+            'hub_id' => $input['hub_id'],
+            'curr_airport_id' => $input['hub_id'],
         ]);
     }
 }
