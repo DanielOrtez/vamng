@@ -16,6 +16,7 @@ use Inertia\Inertia;
 use Laravel\Fortify\Features;
 use Laravel\Fortify\Fortify;
 use Override;
+use Squire\Models\Country;
 
 final class FortifyServiceProvider extends ServiceProvider
 {
@@ -73,6 +74,7 @@ final class FortifyServiceProvider extends ServiceProvider
 
         Fortify::registerView(fn () => Inertia::render('auth/Register', [
             'hubs' => Airport::hubs()->select('id', 'icao', 'name')->get(),
+            'countries' => Country::select('name', 'code_2')->get(),
         ]));
 
         Fortify::twoFactorChallengeView(fn () => Inertia::render('auth/TwoFactorChallenge'));

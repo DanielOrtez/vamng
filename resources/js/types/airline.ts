@@ -9,3 +9,8 @@ export type Airport = {
     longitude: number
     is_hub: boolean
 }
+
+export type Country = {
+    name: string
+    code_2: string
+}

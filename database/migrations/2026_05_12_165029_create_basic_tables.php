@@ -82,6 +82,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->char('country', 2);
             $table->foreignId('rank_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignId('hub_id')->nullable()->constrained('airports')->nullOnDelete();
             $table->foreignId('curr_airport_id')->nullable()->constrained('airports')->nullOnDelete();

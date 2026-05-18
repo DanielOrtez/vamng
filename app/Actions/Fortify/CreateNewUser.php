@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Actions\Fortify;
 
+use App\Concerns\CreateUserValidationRules;
 use App\Concerns\PasswordValidationRules;
 use App\Concerns\ProfileValidationRules;
 use App\Models\User;
@@ -13,6 +14,7 @@ use Laravel\Fortify\Contracts\CreatesNewUsers;
 
 final class CreateNewUser implements CreatesNewUsers
 {
+    use CreateUserValidationRules;
     use PasswordValidationRules;
     use ProfileValidationRules;
 
@@ -25,6 +27,7 @@ final class CreateNewUser implements CreatesNewUsers
     {
         Validator::make($input, [
             ...$this->profileRules(),
+            ...$this->extraCreateUserRules(),
             'password' => $this->passwordRules(),
         ])->validate();
 
@@ -32,9 +35,10 @@ final class CreateNewUser implements CreatesNewUsers
             'name' => $input['name'],
             'email' => $input['email'],
             'password' => $input['password'],
+            'country' => $input['country'],
             'rank_id' => app(GeneralSettings::class)->va_default_rank,
-            'hub_id' => $input['hub_id'],
-            'curr_airport_id' => $input['hub_id'],
+            'hub_id' => $input['hub'],
+            'curr_airport_id' => $input['hub'],
         ]);
     }
 }

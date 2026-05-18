@@ -13,6 +13,9 @@ export default defineConfigWithVueTs(
     {
         name: 'app/files-to-lint',
         files: ['**/*.{vue,ts,mts,tsx}'],
+        rules: {
+            'vue/multi-word-component-names': 'ignore',
+        },
     },
 
     globalIgnores(['**/dist/**', '**/dist-ssr/**', '**/coverage/**']),
