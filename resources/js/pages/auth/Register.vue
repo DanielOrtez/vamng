@@ -68,12 +68,10 @@ const form = useForm<{
     password_confirmation: '',
     country: null,
     hub: null,
-})
-    .withPrecognition(store())
-    .dontRemember('password', 'password_confirmation')
+}).dontRemember('password', 'password_confirmation')
 
 function submit() {
-    form.submit({
+    form.post(store.url(), {
         onError: () => form.reset('password', 'password_confirmation'),
     })
 }
