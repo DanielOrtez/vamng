@@ -16,7 +16,7 @@ import {
     PopoverTrigger,
 } from '@/components/ui/popover'
 import { Check, ChevronDown } from '@lucide/vue'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import {
     Command,
     CommandEmpty,
@@ -34,19 +34,31 @@ defineOptions({
     },
 })
 
-defineProps<{
+const props = defineProps<{
     hubs: Airport[]
     countries: Country[]
 }>()
 
 const openHubCombobox = ref(false)
 const openCountryCombobox = ref(false)
+const selectedHub = computed(() => {
+    const hub = props.hubs.find((hub) => hub.id === form.hub)
+    return hub
+        ? `${hub.icao} (${hub.name})`
+        : 'Select your preferred home airport'
+})
+const selectedCountry = computed(() => {
+    const country = props.countries.find(
+        (country) => country.code_2 === form.country,
+    )
+    return country ? country.name : 'Select your country'
+})
 
 const form = useForm<{
-    name: string | never
-    email: string | never
-    password: string | never
-    password_confirmation: string | number | null
+    name: string
+    email: string
+    password: string
+    password_confirmation: string
     country: string | null
     hub: number | null
 }>({
@@ -139,14 +151,7 @@ function submit() {
                             role="combobox"
                             variant="outline"
                         >
-                            {{
-                                form.country
-                                    ? countries.find(
-                                          (country) =>
-                                              country.code_2 === form.country,
-                                      )?.name
-                                    : 'Select your country'
-                            }}
+                            {{ selectedCountry }}
                             <ChevronDown />
                         </Button>
                     </PopoverTrigger>
@@ -168,7 +173,7 @@ function submit() {
                                                 form.country =
                                                     form.country ===
                                                     country.code_2
-                                                        ? ''
+                                                        ? null
                                                         : country.code_2
                                                 openCountryCombobox = false
                                             }
@@ -205,16 +210,7 @@ function submit() {
                             role="combobox"
                             variant="outline"
                         >
-                            {{
-                                form.hub
-                                    ? hubs.find((hub) => hub.id === form.hub)
-                                          ?.icao +
-                                      ' (' +
-                                      hubs.find((hub) => hub.id === form.hub)
-                                          ?.name +
-                                      ')'
-                                    : 'Select your preferred hub airport'
-                            }}
+                            {{ selectedHub }}
                             <ChevronDown />
                         </Button>
                     </PopoverTrigger>
@@ -235,7 +231,7 @@ function submit() {
                                             () => {
                                                 form.hub =
                                                     form.hub === hub.id
-                                                        ? 0
+                                                        ? null
                                                         : hub.id
                                                 openHubCombobox = false
                                             }
