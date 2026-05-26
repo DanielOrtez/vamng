@@ -10,3 +10,13 @@ export function cn(...inputs: ClassValue[]) {
 export function toUrl(href: NonNullable<InertiaLinkProps['href']>) {
     return typeof href === 'string' ? href : href?.url
 }
+
+export function formatTime(time: string): string {
+    return time.slice(0, 5)
+}
+
+export function formatDuration(time: string): string {
+    const [h, m] = time.split(':')
+
+    return `${h}H ${m}m`.replace(/^0/, '')
+}

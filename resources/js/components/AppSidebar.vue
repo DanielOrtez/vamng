@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { Link } from '@inertiajs/vue3'
-import { LayoutGrid } from '@lucide/vue'
+import { ClipboardClockIcon, LayoutGrid } from '@lucide/vue'
 import AppLogo from '@/components/AppLogo.vue'
 import NavMain from '@/components/NavMain.vue'
 import NavUser from '@/components/NavUser.vue'
@@ -14,6 +14,7 @@ import {
     SidebarMenuItem,
 } from '@/components/ui/sidebar'
 import { dashboard } from '@/routes'
+import flight from '@/routes/flight'
 import type { NavItem } from '@/types'
 
 const mainNavItems: NavItem[] = [
@@ -21,6 +22,14 @@ const mainNavItems: NavItem[] = [
         title: 'Dashboard',
         href: dashboard(),
         icon: LayoutGrid,
+    },
+]
+
+const actionsNavItems: NavItem[] = [
+    {
+        title: 'Book a Flight',
+        href: flight.list(),
+        icon: ClipboardClockIcon,
     },
 ]
 </script>
@@ -40,7 +49,8 @@ const mainNavItems: NavItem[] = [
         </SidebarHeader>
 
         <SidebarContent>
-            <NavMain :items="mainNavItems" />
+            <NavMain :items="mainNavItems" label="Platform" />
+            <NavMain :items="actionsNavItems" label="Pilot Actions" />
         </SidebarContent>
 
         <SidebarFooter>

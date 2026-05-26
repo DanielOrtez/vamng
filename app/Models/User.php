@@ -69,6 +69,14 @@ final class User extends Authenticatable implements FilamentUser, MustVerifyEmai
         return $this->hasOne(Rank::class);
     }
 
+    /**
+     * @return HasOne<Airport, $this>
+     */
+    public function currentAirport(): HasOne
+    {
+        return $this->hasOne(Airport::class, 'id', 'curr_airport_id');
+    }
+
     public function canAccessPanel(Panel $panel): bool
     {
         return $this->can('AccessAdminPanel:User');

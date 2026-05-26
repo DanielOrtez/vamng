@@ -14,3 +14,17 @@ export type Country = {
     name: string
     code_2: string
 }
+
+export type AircraftType = {
+    icao: string
+}
+
+export type Route = {
+    id: number
+    code: string
+    departure_airport: Airport
+    arrival_airport: Airport
+    departure_time: string
+    arrival_time: string
+    flight_time: string
+}
