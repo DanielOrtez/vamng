@@ -38,13 +38,16 @@ final class AircraftTypeForm
                 TextInput::make('pax_capacity')
                     ->numeric()
                     ->minValue(0)
-                    ->disabled(fn (callable $get): bool => $get('type') === AircraftTypeEnum::CARGO),
+                    ->disabled(fn (callable $get): bool => $get('type') === AircraftTypeEnum::CARGO)
+                    ->label('Pax Capacity'),
                 TextInput::make('cargo_capacity')
                     ->numeric()
-                    ->minValue(0),
+                    ->minValue(0)
+                    ->label('Cargo Capacity'),
                 TextInput::make('image_url')
                     ->url()
-                    ->columnSpanFull(),
+                    ->columnSpanFull()
+                    ->label('Image URL'),
             ]);
     }
 }

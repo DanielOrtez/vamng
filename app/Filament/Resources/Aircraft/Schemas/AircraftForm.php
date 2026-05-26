@@ -22,7 +22,8 @@ final class AircraftForm
                     ->relationship('aircraftType', 'icao')
                     ->preload()
                     ->searchable()
-                    ->required(),
+                    ->required()
+                    ->label('Aircraft Type'),
                 Select::make('hub_id')
                     ->relationship('hub', 'name', fn (Builder $query): Builder => $query->where('is_hub', true))
                     ->preload()
