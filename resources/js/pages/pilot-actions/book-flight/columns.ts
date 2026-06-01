@@ -32,7 +32,7 @@ export const columns: ColumnDef<Route>[] = [
     {
         accessorKey: 'departure_time',
         header: 'Departure Time',
-        cell: ({ row }) => formatTime(row.getValue('arrival_time')),
+        cell: ({ row }) => formatTime(row.getValue('departure_time')),
     },
     {
         accessorKey: 'arrival_time',

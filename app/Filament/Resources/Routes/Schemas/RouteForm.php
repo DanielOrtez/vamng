@@ -32,14 +32,16 @@ final class RouteForm
                     ->label('Aircraft Types'),
                 Select::make('departure_airport_id')
                     ->relationship('departureAirport', 'name')
+                    ->getOptionLabelFromRecordUsing(fn ($record) => sprintf('%s (%s)', $record->icao, $record->name))
                     ->preload()
                     ->searchable()
                     ->required()
                     ->label('Departure Airport'),
                 Select::make('arrival_airport_id')
                     ->relationship('arrivalAirport', 'name')
+                    ->getOptionLabelFromRecordUsing(fn ($record) => sprintf('%s (%s)', $record->icao, $record->name))
                     ->preload()
-                    ->searchable()
+                    ->searchable(['icao', 'name'])
                     ->required()
                     ->label('Arrival Airport'),
                 TextInput::make('code')
