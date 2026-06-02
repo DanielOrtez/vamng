@@ -21,9 +21,9 @@ return new class extends Migration
             $table->char('iata', 3)->nullable();
             $table->string('name');
             $table->char('iso_2_country', 2);
-            $table->integer('elevation_ft')->nullable();
-            $table->double('latitude');
-            $table->double('longitude');
+            $table->smallInteger('elevation_ft')->nullable();
+            $table->decimal('latitude', 10, 8);
+            $table->decimal('longitude', 11, 8);
             $table->boolean('is_hub')->default(false);
             $table->timestamps();
         });
@@ -40,8 +40,8 @@ return new class extends Migration
             $table->id();
             $table->enum('type', AircraftTypeEnum::cases());
             $table->char('icao', 4)->unique();
-            $table->unsignedInteger('range_nm')->nullable();
-            $table->unsignedInteger('pax_capacity')->nullable();
+            $table->unsignedSmallInteger('range_nm')->nullable();
+            $table->unsignedSmallInteger('pax_capacity')->nullable();
             $table->unsignedInteger('cargo_capacity')->nullable();
             $table->string('image_url')->nullable();
             $table->timestamps();
@@ -64,12 +64,12 @@ return new class extends Migration
             $table->string('code');
             $table->foreignId('departure_airport_id')->constrained('airports')->cascadeOnDelete();
             $table->foreignId('arrival_airport_id')->constrained('airports')->cascadeOnDelete();
-            $table->integer('distance')->nullable();
+            $table->unsignedSmallInteger('distance')->nullable();
             $table->text('route')->nullable();
             $table->time('departure_time')->nullable();
             $table->time('arrival_time')->nullable();
-            $table->time('flight_time')->nullable();
-            $table->unsignedInteger('cost_index')->nullable();
+            $table->unsignedSmallInteger('flight_time')->comment('Minutes')->nullable();
+            $table->unsignedSmallInteger('cost_index')->nullable();
             $table->timestamps();
 
             $table->index('type');

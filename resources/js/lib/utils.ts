@@ -15,8 +15,9 @@ export function formatTime(time: string): string {
     return time.slice(0, 5)
 }
 
-export function formatDuration(time: string): string {
-    const [h, m] = time.split(':')
+export function formatDuration(time: number): string {
+    const hours = Math.floor(time / 60)
+    const minutes = time % 60
 
-    return `${h}H ${m}m`.replace(/^0/, '')
+    return `${hours}:${minutes.toString().padStart(2, '0')}H`
 }

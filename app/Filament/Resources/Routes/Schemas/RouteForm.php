@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Resources\Routes\Schemas;
 
 use App\Enums\RouteTypeEnum;
+use App\Models\Airport;
 use App\Settings\GeneralSettings;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
@@ -32,21 +33,23 @@ final class RouteForm
                     ->label('Aircraft Types'),
                 Select::make('departure_airport_id')
                     ->relationship('departureAirport', 'name')
-                    ->getOptionLabelFromRecordUsing(fn ($record) => sprintf('%s (%s)', $record->icao, $record->name))
+                    ->getOptionLabelFromRecordUsing(fn (Airport $record): string => sprintf('%s (%s)', $record->icao, $record->name))
                     ->preload()
-                    ->searchable()
+                    ->searchable(['icao', 'name'])
                     ->required()
                     ->label('Departure Airport'),
                 Select::make('arrival_airport_id')
                     ->relationship('arrivalAirport', 'name')
-                    ->getOptionLabelFromRecordUsing(fn ($record) => sprintf('%s (%s)', $record->icao, $record->name))
+                    ->getOptionLabelFromRecordUsing(fn (Airport $record): string => sprintf('%s (%s)', $record->icao, $record->name))
                     ->preload()
                     ->searchable(['icao', 'name'])
+                    ->different('departure_airport_id')
                     ->required()
                     ->label('Arrival Airport'),
                 TextInput::make('code')
                     ->alphaNum()
                     ->required()
+                    ->unique()
                     ->prefix(app(GeneralSettings::class)->va_icao)
                     ->label('Route Code')
                     ->afterLabel(
@@ -55,6 +58,8 @@ final class RouteForm
                     ),
                 TextInput::make('distance')
                     ->numeric()
+                    ->minValue(0)
+                    ->maxValue(65535)
                     ->label('Distance (nm)'),
                 Textarea::make('route')
                     ->columnSpanFull(),
@@ -66,8 +71,11 @@ final class RouteForm
                     ->seconds(false)
                     ->required()
                     ->label('Arrival Time'),
-                TimePicker::make('flight_time')
-                    ->seconds(false)
+                TextInput::make('flight_time')
+                    ->numeric()
+                    ->minValue(0)
+                    ->maxValue(65535)
+                    ->suffix('mins')
                     ->label('Flight Time'),
                 TextInput::make('cost_index')
                     ->numeric()

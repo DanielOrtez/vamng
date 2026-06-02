@@ -26,5 +26,5 @@ export type Route = {
     arrival_airport: Airport
     departure_time: string
     arrival_time: string
-    flight_time: string
+    flight_time: number
 }

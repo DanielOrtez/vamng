@@ -18,7 +18,7 @@ final class RoutesTable
     {
         return $table
             ->columns([
-                TextColumn::make('routeCode')
+                TextColumn::make('route_code')
                     ->searchable('code')
                     ->label('Route Code'),
                 TextColumn::make('type')
@@ -30,8 +30,7 @@ final class RoutesTable
                 TextColumn::make('arrivalAirport.icao')
                     ->searchable()
                     ->label('Arrival Airport'),
-                TextColumn::make('flight_time')
-                    ->time('H:i')
+                TextColumn::make('flight_time_formatted')
                     ->sortable()
                     ->label('Flight Time'),
                 TextColumn::make('cost_index')

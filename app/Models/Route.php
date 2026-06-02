@@ -6,6 +6,7 @@ namespace App\Models;
 
 use App\Enums\RouteTypeEnum;
 use App\Settings\GeneralSettings;
+use Carbon\CarbonInterval;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
@@ -25,6 +26,7 @@ use Override;
     'flight_time',
     'cost_index',
 ])]
+#[\Illuminate\Database\Eloquent\Attributes\Appends(['route_code'])]
 final class Route extends Model
 {
     protected $with = ['departureAirport:id,icao,name', 'arrivalAirport:id,icao,name', 'aircraftTypes:id,icao'];
@@ -59,7 +61,17 @@ final class Route extends Model
     protected function routeCode(): Attribute
     {
         return Attribute::make(
-            get: fn (mixed $value, array $attributes): string => app(GeneralSettings::class)->va_icao.$attributes['code'],
+            get: fn (mixed $value, array $attributes): string => sprintf('%s%s', app(GeneralSettings::class)->va_icao, $attributes['code']),
+        );
+    }
+
+    /**
+     * @return Attribute<Route, CarbonInterval>
+     */
+    protected function flightTimeFormatted(): Attribute
+    {
+        return Attribute::make(
+            get: fn (mixed $value, array $attributes): CarbonInterval => CarbonInterval::minutes($attributes['flight_time'])->cascade(),
         );
     }
 

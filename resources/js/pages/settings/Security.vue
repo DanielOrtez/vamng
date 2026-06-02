@@ -1,18 +1,18 @@
 <script lang="ts" setup>
-import { Form, Head } from '@inertiajs/vue3';
-import { ShieldCheck } from '@lucide/vue';
-import { onUnmounted, ref } from 'vue';
-import SecurityController from '@/actions/App/Http/Controllers/Settings/SecurityController';
-import Heading from '@/components/Heading.vue';
-import InputError from '@/components/InputError.vue';
-import PasswordInput from '@/components/PasswordInput.vue';
-import TwoFactorRecoveryCodes from '@/components/TwoFactorRecoveryCodes.vue';
-import TwoFactorSetupModal from '@/components/TwoFactorSetupModal.vue';
-import { Button } from '@/components/ui/button';
-import { Label } from '@/components/ui/label';
-import { useTwoFactorAuth } from '@/composables/useTwoFactorAuth';
-import { edit } from '@/routes/security';
-import { disable, enable } from '@/routes/two-factor';
+import { Form, Head } from '@inertiajs/vue3'
+import { ShieldCheck } from '@lucide/vue'
+import { onUnmounted, ref } from 'vue'
+import SecurityController from '@/actions/App/Http/Controllers/Settings/SecurityController'
+import Heading from '@/components/Heading.vue'
+import InputError from '@/components/InputError.vue'
+import PasswordInput from '@/components/PasswordInput.vue'
+import TwoFactorRecoveryCodes from '@/components/TwoFactorRecoveryCodes.vue'
+import TwoFactorSetupModal from '@/components/TwoFactorSetupModal.vue'
+import { Button } from '@/components/ui/button'
+import { Label } from '@/components/ui/label'
+import { useTwoFactorAuth } from '@/composables/useTwoFactorAuth'
+import { edit } from '@/routes/security'
+import { disable, enable } from '@/routes/two-factor'
 
 type Props = {
     canManageTwoFactor?: boolean
@@ -23,24 +23,24 @@ type Props = {
 withDefaults(defineProps<Props>(), {
     canManageTwoFactor: false,
     requiresConfirmation: false,
-    twoFactorEnabled: false
-});
+    twoFactorEnabled: false,
+})
 
 defineOptions({
     layout: {
         breadcrumbs: [
             {
                 title: 'Security settings',
-                href: edit()
-            }
-        ]
-    }
-});
+                href: edit(),
+            },
+        ],
+    },
+})
 
-const { hasSetupData, clearTwoFactorAuthData } = useTwoFactorAuth();
-const showSetupModal = ref<boolean>(false);
+const { hasSetupData, clearTwoFactorAuthData } = useTwoFactorAuth()
+const showSetupModal = ref<boolean>(false)
 
-onUnmounted(() => clearTwoFactorAuthData());
+onUnmounted(() => clearTwoFactorAuthData())
 </script>
 
 <template>

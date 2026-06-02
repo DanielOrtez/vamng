@@ -7,9 +7,9 @@ import { Badge } from '@/components/ui/badge'
 
 export const columns: ColumnDef<Route>[] = [
     {
-        accessorKey: 'code',
+        accessorKey: 'route_code',
         header: 'Route Code',
-        cell: ({ row }) => row.getValue('code'),
+        cell: ({ row }) => row.getValue('route_code'),
     },
     {
         accessorKey: 'departure_airport',
@@ -60,7 +60,7 @@ export const columns: ColumnDef<Route>[] = [
                     {
                         variant: 'secondary',
                     },
-                    type.icao,
+                    () => type.icao,
                 ),
             )
 
