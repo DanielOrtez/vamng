@@ -7,6 +7,7 @@ namespace App\Models;
 use App\Enums\RouteTypeEnum;
 use App\Settings\GeneralSettings;
 use Carbon\CarbonInterval;
+use Illuminate\Database\Eloquent\Attributes\Appends;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
@@ -26,7 +27,7 @@ use Override;
     'flight_time',
     'cost_index',
 ])]
-#[\Illuminate\Database\Eloquent\Attributes\Appends(['route_code'])]
+#[Appends(['route_code'])]
 final class Route extends Model
 {
     protected $with = ['departureAirport:id,icao,name', 'arrivalAirport:id,icao,name', 'aircraftTypes:id,icao'];

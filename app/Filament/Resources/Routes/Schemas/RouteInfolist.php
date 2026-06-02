@@ -18,10 +18,10 @@ final class RouteInfolist
                     ->label('Route Code'),
                 TextEntry::make('departureAirport')
                     ->formatStateUsing(fn (mixed $state): string => sprintf('%s (%s)', $state->name, $state->icao))
-                    ->label('Departure airport'),
+                    ->label('Departure Airport'),
                 TextEntry::make('arrivalAirport')
                     ->formatStateUsing(fn (mixed $state): string => sprintf('%s (%s)', $state->name, $state->icao))
-                    ->label('Arrival airport'),
+                    ->label('Arrival Airport'),
                 TextEntry::make('distance')
                     ->numeric()
                     ->placeholder('-'),
@@ -34,8 +34,8 @@ final class RouteInfolist
                 TextEntry::make('arrival_time')
                     ->time('H:i')
                     ->placeholder('-'),
-                TextEntry::make('flight_time')
-                    ->time('H:i')
+                TextEntry::make('flight_time_formatted')
+                    ->numeric()
                     ->placeholder('-'),
                 TextEntry::make('cost_index')
                     ->numeric()

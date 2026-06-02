@@ -19,5 +19,16 @@ export function formatDuration(time: number): string {
     const hours = Math.floor(time / 60)
     const minutes = time % 60
 
-    return `${hours}:${minutes.toString().padStart(2, '0')}H`
+    let formattedTime: string = ''
+
+    if (hours > 0) {
+        formattedTime += hours === 1 ? `${hours} hour` : `${hours} hours`
+    }
+
+    if (minutes > 0) {
+        formattedTime +=
+            minutes === 1 ? ` ${minutes} minute` : ` ${minutes} minutes`
+    }
+
+    return formattedTime
 }
