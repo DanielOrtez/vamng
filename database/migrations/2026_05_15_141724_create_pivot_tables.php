@@ -17,6 +17,8 @@ return new class extends Migration
             $table->foreignId('aircraft_type_id')->constrained()->cascadeOnDelete();
             $table->foreignId('route_id')->constrained()->cascadeOnDelete();
             $table->timestamp('assigned_at')->default(now());
+            
+            $table->index(['aircraft_type_id', 'route_id']);
         });
     }
 

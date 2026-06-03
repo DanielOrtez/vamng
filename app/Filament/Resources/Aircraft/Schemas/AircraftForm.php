@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Aircraft\Schemas;
 
+use App\EloquentBuilder\AirportBuilder;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
-use Illuminate\Database\Eloquent\Builder;
 
 final class AircraftForm
 {
@@ -25,7 +25,7 @@ final class AircraftForm
                     ->required()
                     ->label('Aircraft Type'),
                 Select::make('hub_id')
-                    ->relationship('hub', 'name', fn (Builder $query): Builder => $query->where('is_hub', true))
+                    ->relationship('hub', 'name', fn (AirportBuilder $query): AirportBuilder => $query->hubs())
                     ->preload()
                     ->searchable()
                     ->required(),

@@ -26,6 +26,8 @@ return new class extends Migration
             $table->decimal('longitude', 11, 8);
             $table->boolean('is_hub')->default(false);
             $table->timestamps();
+
+            DB::statement('CREATE INDEX idx_airports_hubs ON airports(is_hub) WHERE is_hub = true');
         });
 
         Schema::create('ranks', function (Blueprint $table): void {
@@ -56,12 +58,15 @@ return new class extends Migration
             $table->foreignId('hub_id')->nullable()->constrained('airports')->nullOnDelete();
             $table->foreignId('curr_location_id')->nullable()->constrained('airports')->nullOnDelete();
             $table->timestamps();
+
+            $table->index(['hub_id', 'aircraft_type_id']);
+            $table->index(['curr_location_id', 'aircraft_type_id']);
         });
 
         Schema::create('routes', function (Blueprint $table): void {
             $table->id();
             $table->enum('type', RouteTypeEnum::cases());
-            $table->string('code');
+            $table->string('code')->unique();
             $table->foreignId('departure_airport_id')->constrained('airports')->cascadeOnDelete();
             $table->foreignId('arrival_airport_id')->constrained('airports')->cascadeOnDelete();
             $table->unsignedSmallInteger('distance')->nullable();
@@ -73,7 +78,7 @@ return new class extends Migration
             $table->timestamps();
 
             $table->index('type');
-            $table->index('code');
+            $table->index(['departure_airport_id', 'arrival_airport_id']);
         });
 
         Schema::create('users', function (Blueprint $table): void {

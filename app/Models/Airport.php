@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\EloquentBuilder\AirportBuilder;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
-use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Override;
@@ -13,13 +13,9 @@ use Override;
 #[Fillable(['icao', 'iata', 'name', 'iso_2_country', 'elevation_ft', 'latitude', 'longitude', 'is_hub'])]
 final class Airport extends Model
 {
-    /**
-     * @param  Builder<Airport>  $query
-     */
-    #[Scope]
-    protected function hubs(Builder $query): void
+    public function newEloquentBuilder($query): Builder
     {
-        $query->where('is_hub', true);
+        return new AirportBuilder($query);
     }
 
     #[Override]

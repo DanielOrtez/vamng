@@ -4,6 +4,7 @@ import { AircraftType, Airport, Route } from '@/types/airline'
 import { formatDuration, formatTime } from '@/lib/utils'
 import { h } from 'vue'
 import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
 
 export const columns: ColumnDef<Route>[] = [
     {
@@ -66,5 +67,15 @@ export const columns: ColumnDef<Route>[] = [
 
             return h('div', { class: 'flex gap-1' }, badges)
         },
+    },
+    {
+        accessorKey: 'book_flight',
+        header: () => null,
+        cell: () =>
+            h(
+                Button,
+                { variant: 'secondary', size: 'sm', class: 'cursor-pointer' },
+                () => 'Book',
+            ),
     },
 ]

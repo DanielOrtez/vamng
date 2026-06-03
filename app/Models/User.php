@@ -10,7 +10,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Fortify\TwoFactorAuthenticatable;
@@ -62,19 +62,19 @@ final class User extends Authenticatable implements FilamentUser, MustVerifyEmai
     use TwoFactorAuthenticatable;
 
     /**
-     * @return HasOne<Rank, $this>
+     * @return BelongsTo<Rank, $this>
      */
-    public function rank(): HasOne
+    public function rank(): BelongsTo
     {
-        return $this->hasOne(Rank::class);
+        return $this->belongsTo(Rank::class);
     }
 
     /**
-     * @return HasOne<Airport, $this>
+     * @return BelongsTo<Airport, $this>
      */
-    public function currentAirport(): HasOne
+    public function currentAirport(): BelongsTo
     {
-        return $this->hasOne(Airport::class, 'id', 'curr_airport_id');
+        return $this->belongsTo(Airport::class, 'curr_airport_id');
     }
 
     public function canAccessPanel(Panel $panel): bool

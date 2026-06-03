@@ -31,7 +31,7 @@ final class RoutesTable
                     ->searchable()
                     ->label('Arrival Airport'),
                 TextColumn::make('flight_time_formatted')
-                    ->sortable()
+                    ->sortable(['flight_time'])
                     ->label('Flight Time'),
                 TextColumn::make('cost_index')
                     ->label('Cost Index'),
