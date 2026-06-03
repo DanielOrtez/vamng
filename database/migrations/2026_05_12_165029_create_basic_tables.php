@@ -44,7 +44,7 @@ return new class extends Migration
             $table->char('icao', 4)->unique();
             $table->unsignedSmallInteger('range_nm')->nullable();
             $table->unsignedSmallInteger('pax_capacity')->nullable();
-            $table->unsignedInteger('cargo_capacity')->nullable();
+            $table->unsignedSmallInteger('cargo_capacity')->nullable();
             $table->string('image_url')->nullable();
             $table->timestamps();
         });
