@@ -27,8 +27,8 @@ return new class extends Migration
             $table->boolean('is_hub')->default(false);
             $table->timestamps();
 
-            DB::statement('CREATE INDEX idx_airports_hubs ON airports(is_hub) WHERE is_hub = true');
         });
+        DB::statement('CREATE INDEX idx_airports_hubs ON airports(is_hub) WHERE is_hub = true');
 
         Schema::create('ranks', function (Blueprint $table): void {
             $table->id();
