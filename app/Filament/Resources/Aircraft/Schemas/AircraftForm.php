@@ -27,7 +27,8 @@ final class AircraftForm
                 Select::make('hub_id')
                     ->relationship('hub', 'name', fn (AirportBuilder $query): AirportBuilder => $query->hubs())
                     ->preload()
-                    ->searchable()
+                    ->searchable(['icao', 'name'])
+                    ->searchPrompt('Search by ICAO or name')
                     ->required(),
                 Select::make('curr_location_id')
                     ->relationship('currLocation', 'icao')
