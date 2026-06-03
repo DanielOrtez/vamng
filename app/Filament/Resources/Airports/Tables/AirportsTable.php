@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Filament\Resources\Airports\Tables;
 
+use App\Models\Airport;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
@@ -18,15 +19,15 @@ final class AirportsTable
     public static function configure(Table $table): Table
     {
         return $table
+            ->query(fn () => Airport::with('country'))
             ->columns([
                 TextColumn::make('icao')
                     ->searchable()
                     ->label('ICAO'),
                 TextColumn::make('name')
                     ->searchable(),
-                TextColumn::make('iso_2_country')
+                TextColumn::make('country.name')
                     ->sortable()
-                    ->formatStateUsing(fn (mixed $state): string => Country::find($state)->name ?? $state)
                     ->label('Country'),
                 IconColumn::make('is_hub')
                     ->boolean()

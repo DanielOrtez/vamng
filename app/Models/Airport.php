@@ -8,8 +8,10 @@ use App\EloquentBuilder\AirportBuilder;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Override;
+use Squire\Models\Country;
 
 #[Fillable(['icao', 'iata', 'name', 'iso_2_country', 'elevation_ft', 'latitude', 'longitude', 'is_hub'])]
 final class Airport extends Model
@@ -17,6 +19,14 @@ final class Airport extends Model
     public function newEloquentBuilder($query): Builder
     {
         return new AirportBuilder($query);
+    }
+
+    /**
+     * @return BelongsTo<Country, $this>
+     */
+    public function country(): BelongsTo
+    {
+        return $this->belongsTo(Country::class, 'iso_2_country', 'code_2');
     }
 
     /**
