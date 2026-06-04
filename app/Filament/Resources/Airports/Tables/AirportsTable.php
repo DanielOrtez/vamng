@@ -12,7 +12,6 @@ use Filament\Actions\EditAction;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
-use Squire\Models\Country;
 
 final class AirportsTable
 {

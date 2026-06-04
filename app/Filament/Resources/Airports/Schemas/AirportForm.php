@@ -21,12 +21,12 @@ final class AirportForm
                     ->required()
                     ->minLength(4)
                     ->maxLength(4)
-                    ->autocapitalize()
+                    ->mutateDehydratedStateUsing(fn (mixed $state): string => mb_strtoupper($state))
                     ->label('ICAO'),
                 TextInput::make('iata')
                     ->minLength(3)
                     ->maxLength(3)
-                    ->autocapitalize()
+                    ->mutateDehydratedStateUsing(fn (mixed $state): string => mb_strtoupper($state))
                     ->label('IATA'),
                 TextInput::make('name')
                     ->columnSpanFull()

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Filament\Resources\Routes\Schemas;
 
 use Filament\Infolists\Components\TextEntry;
+use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Schema;
 
 final class RouteInfolist
@@ -22,18 +23,21 @@ final class RouteInfolist
                 TextEntry::make('arrivalAirport')
                     ->formatStateUsing(fn (mixed $state): string => sprintf('%s (%s)', $state->name, $state->icao))
                     ->label('Arrival Airport'),
-                TextEntry::make('distance')
-                    ->numeric()
-                    ->placeholder('-'),
+                Grid::make(3)
+                    ->schema([
+                        TextEntry::make('distance')
+                            ->numeric()
+                            ->placeholder('-'),
+                        TextEntry::make('departure_time')
+                            ->time('H:i')
+                            ->placeholder('-'),
+                        TextEntry::make('arrival_time')
+                            ->time('H:i')
+                            ->placeholder('-'),
+                    ])->columnSpanFull(),
                 TextEntry::make('route')
                     ->placeholder('-')
                     ->columnSpanFull(),
-                TextEntry::make('departure_time')
-                    ->time('H:i')
-                    ->placeholder('-'),
-                TextEntry::make('arrival_time')
-                    ->time('H:i')
-                    ->placeholder('-'),
                 TextEntry::make('flight_time_formatted')
                     ->numeric()
                     ->placeholder('-'),

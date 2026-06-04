@@ -22,7 +22,8 @@ final class DefaultSeeder extends Seeder
             [
                 'icao' => 'LEBL',
                 'name' => 'Josep Tarradellas Barcelona-El Prat Airport',
-                'iso_2_country' => 'ES',
+                'elevation_ft' => 4,
+                'iso_2_country' => 'es',
                 'latitude' => 41.297100,
                 'longitude' => 2.078460,
                 'is_hub' => true,
