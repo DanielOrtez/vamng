@@ -9,6 +9,8 @@ use App\Settings\GeneralSettings;
 use Carbon\CarbonInterval;
 use Illuminate\Database\Eloquent\Attributes\Appends;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Attributes\Scope;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -74,6 +76,15 @@ final class Route extends Model
         return Attribute::make(
             get: fn (mixed $value, array $attributes): CarbonInterval => CarbonInterval::minutes($attributes['flight_time'])->cascade(),
         );
+    }
+
+    /**
+     * @param  Builder<self>  $query
+     */
+    #[Scope]
+    protected function fromUserLocation(Builder $query, mixed $location): void
+    {
+        $query->where('departure_airport_id', $location);
     }
 
     #[Override]
