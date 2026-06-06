@@ -3,9 +3,10 @@ import type { Route } from '@/types/airline'
 import { DataTable } from '@/components/ui/data-table'
 import { columns } from './columns'
 import { Head } from '@inertiajs/vue3'
+import type { Pagination } from '@/types/datatable'
 
 defineProps<{
-    routes: Route[]
+    routes: Pagination<Route>
 }>()
 </script>
 
@@ -13,7 +14,11 @@ defineProps<{
     <Head title="Book a Flight" />
 
     <div class="flex h-full flex-1 flex-col p-4">
-        <DataTable :columns="columns" :data="routes" />
+        <DataTable
+            :columns="columns"
+            :paginated-data="routes"
+            :only="['routes']"
+        />
     </div>
 </template>
 

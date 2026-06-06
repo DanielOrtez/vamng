@@ -13,20 +13,41 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table'
+import type { Pagination } from '@/types/datatable'
+import { useDataTable } from '@/composables/useDataTable'
+import DataTablePagination from '@/components/ui/data-table/DataTablePagination.vue'
 
 const props = defineProps<{
     columns: ColumnDef<TData, TValue>[]
-    data: TData[]
+    paginatedData: Pagination<TData>
+    only: string[]
 }>()
+
+const { pagination, paginate } = useDataTable({
+    pagination: {
+        pageIndex: props.paginatedData.current_page - 1,
+        pageSize: props.paginatedData.per_page,
+    },
+    only: props.only,
+})
 
 const table = useVueTable({
     get data() {
-        return props.data
+        return props.paginatedData.data
     },
     get columns() {
         return props.columns
     },
     getCoreRowModel: getCoreRowModel(),
+    manualPagination: true,
+    rowCount: props.paginatedData.total,
+    pageCount: props.paginatedData.last_page,
+    onPaginationChange: paginate,
+    state: {
+        get pagination() {
+            return pagination.value
+        },
+    },
 })
 </script>
 
@@ -83,6 +104,5 @@ const table = useVueTable({
             </TableBody>
         </Table>
     </div>
+    <DataTablePagination :table="table" />
 </template>
-
-<style scoped></style>
