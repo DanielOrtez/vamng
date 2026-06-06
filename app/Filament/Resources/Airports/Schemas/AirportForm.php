@@ -21,12 +21,12 @@ final class AirportForm
                     ->required()
                     ->minLength(4)
                     ->maxLength(4)
-                    ->mutateDehydratedStateUsing(fn (mixed $state): string => mb_strtoupper($state))
+                    ->mutateDehydratedStateUsing(fn (mixed $state): string => mb_strtoupper((string) $state))
                     ->label('ICAO'),
                 TextInput::make('iata')
                     ->minLength(3)
                     ->maxLength(3)
-                    ->mutateDehydratedStateUsing(fn (mixed $state): string => mb_strtoupper($state))
+                    ->mutateDehydratedStateUsing(fn (mixed $state): string => mb_strtoupper((string) $state))
                     ->label('IATA'),
                 TextInput::make('name')
                     ->columnSpanFull()

@@ -6,17 +6,17 @@ namespace App\Models;
 
 use App\EloquentBuilder\AirportBuilder;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Squire\Models\Country;
 use Override;
+use Squire\Models\Country;
 
 #[Fillable(['icao', 'iata', 'name', 'iso_2_country', 'elevation_ft', 'latitude', 'longitude', 'is_hub'])]
 final class Airport extends Model
 {
-    public function newEloquentBuilder($query): Builder
+    #[Override]
+    public function newEloquentBuilder($query): AirportBuilder
     {
         return new AirportBuilder($query);
     }
