@@ -1,6 +1,6 @@
 <script setup lang="ts" generic="TData, TValue">
 import {
-    ColumnDef,
+    type ColumnDef,
     useVueTable,
     getCoreRowModel,
     FlexRender,
@@ -23,7 +23,7 @@ const props = defineProps<{
     only: string[]
 }>()
 
-const { pagination, paginate } = useDataTable({
+const { pagination, paginate, sorting, sort } = useDataTable({
     pagination: {
         pageIndex: props.paginatedData.current_page - 1,
         pageSize: props.paginatedData.per_page,
@@ -40,12 +40,17 @@ const table = useVueTable({
     },
     getCoreRowModel: getCoreRowModel(),
     manualPagination: true,
+    manualSorting: true,
     rowCount: props.paginatedData.total,
     pageCount: props.paginatedData.last_page,
     onPaginationChange: paginate,
+    onSortingChange: sort,
     state: {
         get pagination() {
             return pagination.value
+        },
+        get sorting() {
+            return sorting.value
         },
     },
 })

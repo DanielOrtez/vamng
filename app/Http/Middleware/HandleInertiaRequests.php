@@ -6,6 +6,7 @@ namespace App\Http\Middleware;
 
 use App\Settings\GeneralSettings;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 use Inertia\Middleware;
 use Override;
 
@@ -50,6 +51,7 @@ final class HandleInertiaRequests extends Middleware
                 'isSuperAdmin' => $request->user()?->hasRole('Super Admin'),
             ],
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
+            'queryParams' => Inertia::always($request->query()),
         ];
     }
 }

@@ -1,12 +1,33 @@
-import type { PaginationState, Updater } from '@tanstack/vue-table'
-import { Ref, ref } from 'vue'
+import type {
+    PaginationState,
+    SortingState,
+    Updater,
+} from '@tanstack/vue-table'
+import { ref } from 'vue'
 import type { DataTableOptions } from '@/types/datatable'
-import { router } from '@inertiajs/vue3'
+import { router, usePage } from '@inertiajs/vue3'
+
+function formatSorting(sorting: SortingState) {
+    if (sorting[0].desc) {
+        return `-${sorting[0].id}`
+    }
+
+    return `${sorting[0].id}`
+}
 
 export function useDataTable(options: DataTableOptions) {
-    const pagination: Ref<PaginationState> = ref({
+    const _ = usePage()
+
+    const pagination = ref<PaginationState>({
         ...options.pagination,
     })
+
+    const sorting = ref<SortingState>([
+        {
+            id: '',
+            desc: false,
+        },
+    ])
 
     function fetchDataTable() {
         router.cancelAll()
@@ -15,6 +36,7 @@ export function useDataTable(options: DataTableOptions) {
             data: {
                 page: pagination.value.pageIndex + 1,
                 perPage: pagination.value.pageSize,
+                sort: formatSorting(sorting.value),
             },
             only: options.only,
         })
@@ -29,8 +51,19 @@ export function useDataTable(options: DataTableOptions) {
         fetchDataTable()
     }
 
+    function sort(updateOrValue: Updater<SortingState>) {
+        sorting.value =
+            typeof updateOrValue === 'function'
+                ? updateOrValue(sorting.value)
+                : updateOrValue
+
+        fetchDataTable()
+    }
+
     return {
         pagination,
+        sorting,
         paginate,
+        sort,
     }
 }

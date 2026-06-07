@@ -1,4 +1,4 @@
-import { PaginationState } from '@tanstack/vue-table'
+import type { PaginationState } from '@tanstack/vue-table'
 
 export type PaginationLink = {
     active: boolean

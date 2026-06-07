@@ -1,4 +1,4 @@
-import type { Auth } from '@/types/auth'
+import type { Auth, QueryParams } from '@/types'
 
 // Extend ImportMeta interface for Vite...
 declare module 'vite/client' {
@@ -19,6 +19,7 @@ declare module '@inertiajs/core' {
             name: string
             auth: Auth
             sidebarOpen: boolean
+            queryParams: QueryParams
             [key: string]: unknown
         }
     }

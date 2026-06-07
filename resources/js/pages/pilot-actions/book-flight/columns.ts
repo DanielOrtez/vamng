@@ -5,6 +5,7 @@ import { formatDuration, formatTime } from '@/lib/utils'
 import { h } from 'vue'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
+import { ArrowUpDown } from '@lucide/vue'
 
 export const columns: ColumnDef<Route>[] = [
     {
@@ -33,7 +34,21 @@ export const columns: ColumnDef<Route>[] = [
     },
     {
         accessorKey: 'flight_time',
-        header: 'Flight Time',
+        header: ({ column }) => {
+            return h(
+                Button,
+                {
+                    variant: 'ghost',
+                    class: 'cursor-pointer',
+                    onClick: () =>
+                        column.toggleSorting(column.getIsSorted() === 'asc'),
+                },
+                () => [
+                    'Flight Time',
+                    h(ArrowUpDown, { class: 'ml-2 h-4 w-4' }),
+                ],
+            )
+        },
         cell: ({ row }) => formatDuration(row.getValue('flight_time')),
     },
     {
