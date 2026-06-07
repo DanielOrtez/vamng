@@ -32,7 +32,7 @@ use Override;
 #[Appends(['route_code'])]
 final class Route extends Model
 {
-    protected $with = ['departureAirport:id,icao,name', 'arrivalAirport:id,icao,name', 'aircraftTypes:id,icao'];
+    protected $with = ['arrivalAirport:id,icao,name', 'aircraftTypes:id,icao'];
 
     /**
      * @return BelongsTo<Airport, $this>

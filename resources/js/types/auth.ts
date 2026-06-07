@@ -1,3 +1,5 @@
+import type { Airport } from '@/types/airline'
+
 export type User = {
     id: number
     name: string
@@ -6,6 +8,7 @@ export type User = {
     email_verified_at: string | null
     created_at: string
     updated_at: string
+    current_airport?: Airport
     [key: string]: unknown
 }
 

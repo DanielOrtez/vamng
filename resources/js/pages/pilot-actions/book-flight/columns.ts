@@ -13,15 +13,6 @@ export const columns: ColumnDef<Route>[] = [
         cell: ({ row }) => row.getValue('route_code'),
     },
     {
-        accessorKey: 'departure_airport',
-        header: 'Departure Airport',
-        cell: ({ row }) => {
-            const airport: Airport = row.getValue('departure_airport')
-
-            return `${airport.icao} - ${airport.name}`
-        },
-    },
-    {
         accessorKey: 'arrival_airport',
         header: 'Arrival Airport',
         cell: ({ row }) => {

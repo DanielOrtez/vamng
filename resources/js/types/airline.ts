@@ -22,7 +22,7 @@ export type AircraftType = {
 export type Route = {
     id: number
     code: string
-    departure_airport: Airport
+    departure_airport?: Airport
     arrival_airport: Airport
     departure_time: string
     arrival_time: string

@@ -14,8 +14,8 @@ final class FlightController extends Controller
 {
     public function list(Request $request): Response
     {
-        $currentUserLocation = request()->user()->curr_airport_id;
-        $routes = Route::fromUserLocation($currentUserLocation)
+        $currentUserLocation = request()->user()->currentAirport;
+        $routes = Route::fromUserLocation($currentUserLocation->id)
             ->paginate($request->integer('perPage', 15));
 
         return Inertia::render('pilot-actions/book-flight/BookFlight', [
