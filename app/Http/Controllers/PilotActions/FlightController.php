@@ -9,6 +9,7 @@ use App\Models\Route;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
+use Spatie\QueryBuilder\AllowedFilter;
 use Spatie\QueryBuilder\QueryBuilder;
 
 final class FlightController extends Controller
@@ -18,7 +19,8 @@ final class FlightController extends Controller
         $currentUserLocation = request()->user()->currentAirport;
         $query = Route::fromUserLocation($currentUserLocation->id);
         $routes = QueryBuilder::for($query)
-            ->allowedSorts('flight_time')
+            ->allowedSorts('flight_time', 'departure_time', 'arrival_time')
+            ->allowedFilters(AllowedFilter::partial('arrival_airport', 'arrivalAirport.icao'))
             ->paginate($request->integer('perPage', 15));
 
         return Inertia::render('pilot-actions/book-flight/BookFlight', [

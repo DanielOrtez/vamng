@@ -10,12 +10,12 @@ import { ArrowUpDown } from '@lucide/vue'
 export const columns: ColumnDef<Route>[] = [
     {
         accessorKey: 'route_code',
-        header: 'Route Code',
+        header: 'Route code',
         cell: ({ row }) => row.getValue('route_code'),
     },
     {
         accessorKey: 'arrival_airport',
-        header: 'Arrival Airport',
+        header: 'Arrival airport',
         cell: ({ row }) => {
             const airport: Airport = row.getValue('arrival_airport')
 
@@ -24,12 +24,46 @@ export const columns: ColumnDef<Route>[] = [
     },
     {
         accessorKey: 'departure_time',
-        header: 'Departure Time',
+        header: ({ column }) => {
+            return h(
+                Button,
+                {
+                    variant: 'ghost',
+                    size: 'sm',
+                    class: 'cursor-pointer',
+                    onClick: () =>
+                        column.toggleSorting(column.getIsSorted() === 'asc'),
+                },
+                () => [
+                    'Departure time',
+                    h(ArrowUpDown, {
+                        class: 'ml-2 h-4 w-4',
+                    }),
+                ],
+            )
+        },
         cell: ({ row }) => formatTime(row.getValue('departure_time')),
     },
     {
         accessorKey: 'arrival_time',
-        header: 'Arrival Time',
+        header: ({ column }) => {
+            return h(
+                Button,
+                {
+                    variant: 'ghost',
+                    size: 'sm',
+                    class: 'cursor-pointer',
+                    onClick: () =>
+                        column.toggleSorting(column.getIsSorted() === 'asc'),
+                },
+                () => [
+                    'Arrival time',
+                    h(ArrowUpDown, {
+                        class: 'ml-2 h-4 w-4',
+                    }),
+                ],
+            )
+        },
         cell: ({ row }) => formatTime(row.getValue('arrival_time')),
     },
     {
@@ -39,13 +73,16 @@ export const columns: ColumnDef<Route>[] = [
                 Button,
                 {
                     variant: 'ghost',
+                    size: 'sm',
                     class: 'cursor-pointer',
                     onClick: () =>
                         column.toggleSorting(column.getIsSorted() === 'asc'),
                 },
                 () => [
-                    'Flight Time',
-                    h(ArrowUpDown, { class: 'ml-2 h-4 w-4' }),
+                    'Flight time',
+                    h(ArrowUpDown, {
+                        class: 'ml-2 h-4 w-4',
+                    }),
                 ],
             )
         },
@@ -53,7 +90,7 @@ export const columns: ColumnDef<Route>[] = [
     },
     {
         accessorKey: 'aircraft_types',
-        header: 'Airport Types',
+        header: 'Aircraft types',
         cell: ({ row }) => {
             const aircraftTypes: AircraftType[] = row.getValue('aircraft_types')
 

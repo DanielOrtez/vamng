@@ -1,4 +1,5 @@
 import type {
+    ColumnFiltersState,
     PaginationState,
     SortingState,
     Updater,
@@ -6,28 +7,22 @@ import type {
 import { ref } from 'vue'
 import type { DataTableOptions } from '@/types/datatable'
 import { router, usePage } from '@inertiajs/vue3'
-
-function formatSorting(sorting: SortingState) {
-    if (sorting[0].desc) {
-        return `-${sorting[0].id}`
-    }
-
-    return `${sorting[0].id}`
-}
+import {
+    formatFiltering,
+    formatSorting,
+    parseQueryFilters,
+} from '@/lib/datatableUtils'
 
 export function useDataTable(options: DataTableOptions) {
-    const _ = usePage()
-
+    const page = usePage()
+    const { filters } = parseQueryFilters(page.props.queryParams)
     const pagination = ref<PaginationState>({
         ...options.pagination,
     })
 
-    const sorting = ref<SortingState>([
-        {
-            id: '',
-            desc: false,
-        },
-    ])
+    const sorting = ref<SortingState>([])
+
+    const filtering = ref<ColumnFiltersState>(filters)
 
     function fetchDataTable() {
         router.cancelAll()
@@ -36,7 +31,10 @@ export function useDataTable(options: DataTableOptions) {
             data: {
                 page: pagination.value.pageIndex + 1,
                 perPage: pagination.value.pageSize,
-                sort: formatSorting(sorting.value),
+                ...(sorting.value.length > 0
+                    ? { sort: formatSorting(sorting.value) }
+                    : {}),
+                filter: formatFiltering(filtering.value) as never,
             },
             only: options.only,
         })
@@ -60,10 +58,21 @@ export function useDataTable(options: DataTableOptions) {
         fetchDataTable()
     }
 
+    function filter(updateOrValue: Updater<ColumnFiltersState>) {
+        filtering.value =
+            typeof updateOrValue === 'function'
+                ? updateOrValue(filtering.value)
+                : updateOrValue
+
+        fetchDataTable()
+    }
+
     return {
         pagination,
         sorting,
+        filtering,
         paginate,
         sort,
+        filter,
     }
 }

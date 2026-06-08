@@ -27,6 +27,7 @@ defineProps<{
             :columns="columns"
             :paginated-data="routes"
             :only="['routes']"
+            filter-by="arrival_airport"
         />
     </div>
 </template>

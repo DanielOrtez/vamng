@@ -16,20 +16,25 @@ import {
 import type { Pagination } from '@/types/datatable'
 import { useDataTable } from '@/composables/useDataTable'
 import DataTablePagination from '@/components/ui/data-table/DataTablePagination.vue'
+import { Input } from '@/components/ui/input'
+import { useDebounceFn } from '@vueuse/core'
 
 const props = defineProps<{
     columns: ColumnDef<TData, TValue>[]
     paginatedData: Pagination<TData>
     only: string[]
+    filterBy?: string
 }>()
 
-const { pagination, paginate, sorting, sort } = useDataTable({
-    pagination: {
-        pageIndex: props.paginatedData.current_page - 1,
-        pageSize: props.paginatedData.per_page,
+const { pagination, paginate, sorting, sort, filtering, filter } = useDataTable(
+    {
+        pagination: {
+            pageIndex: props.paginatedData.current_page - 1,
+            pageSize: props.paginatedData.per_page,
+        },
+        only: props.only,
     },
-    only: props.only,
-})
+)
 
 const table = useVueTable({
     get data() {
@@ -41,10 +46,12 @@ const table = useVueTable({
     getCoreRowModel: getCoreRowModel(),
     manualPagination: true,
     manualSorting: true,
+    manualFiltering: true,
     rowCount: props.paginatedData.total,
     pageCount: props.paginatedData.last_page,
     onPaginationChange: paginate,
     onSortingChange: sort,
+    onColumnFiltersChange: useDebounceFn(filter, 500),
     state: {
         get pagination() {
             return pagination.value
@@ -52,11 +59,24 @@ const table = useVueTable({
         get sorting() {
             return sorting.value
         },
+        get columnFilters() {
+            return filtering.value
+        },
     },
 })
 </script>
 
 <template>
+    <div v-if="filterBy" class="flex items-center py-4">
+        <Input
+            class="max-w-sm"
+            :placeholder="table.getColumn(filterBy)?.columnDef.header"
+            :model-value="table.getColumn(filterBy)?.getFilterValue() as string"
+            @update:model-value="
+                table.getColumn(filterBy)?.setFilterValue($event)
+            "
+        />
+    </div>
     <div class="border rounded-md">
         <Table>
             <TableHeader>
