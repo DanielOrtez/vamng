@@ -27,6 +27,7 @@ return new class extends Migration
             $table->boolean('is_hub')->default(false);
             $table->timestamps();
 
+            $table->index('is_hub');
         });
 
         if (Schema::getConnection()->getDriverName() === 'pgsql') {
