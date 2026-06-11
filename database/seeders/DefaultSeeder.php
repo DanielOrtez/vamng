@@ -15,7 +15,7 @@ final class DefaultSeeder extends Seeder
     public function run(): void
     {
         DB::table('ranks')->insert([
-            ['name' => 'New Pilot', 'hours' => 0, 'created_at' => now(), 'updated_at' => now()],
+            ['id' => 1, 'name' => 'New Pilot', 'hours' => 0, 'created_at' => now(), 'updated_at' => now()],
         ]);
 
         DB::table('airports')->insert(

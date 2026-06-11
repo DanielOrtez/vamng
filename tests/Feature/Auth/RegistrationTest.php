@@ -2,7 +2,6 @@
 
 declare(strict_types=1);
 
-use Database\Seeders\TestSeeder;
 use Laravel\Fortify\Features;
 
 beforeEach(function () {
@@ -15,9 +14,8 @@ test('registration screen can be rendered', function () {
     $response->assertOk();
 });
 
-test('new users can register', function () {
+test( 'new users can register', function () {
     $this->seed();
-    $this->seed(TestSeeder::class);
 
     $response = $this->post(route('register.store'), [
         'name' => 'Test User',
