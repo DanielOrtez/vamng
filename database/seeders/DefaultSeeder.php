@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Database\Seeders;
 
+use Clickbar\Magellan\Data\Geometries\Point;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -24,8 +25,7 @@ final class DefaultSeeder extends Seeder
                 'name' => 'Josep Tarradellas Barcelona-El Prat Airport',
                 'elevation_ft' => 4,
                 'iso_2_country' => 'es',
-                'latitude' => 41.297100,
-                'longitude' => 2.078460,
+                'location' => Point::makeGeodetic(41.297100, 2.078460),
                 'is_hub' => true,
                 'created_at' => now(),
                 'updated_at' => now()]

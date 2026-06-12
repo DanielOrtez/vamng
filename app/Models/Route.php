@@ -7,6 +7,7 @@ namespace App\Models;
 use App\Enums\RouteTypeEnum;
 use App\Settings\GeneralSettings;
 use Carbon\CarbonInterval;
+use Clickbar\Magellan\Database\PostgisFunctions\ST;
 use Illuminate\Database\Eloquent\Attributes\Appends;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Scope;
@@ -15,6 +16,7 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Facades\DB;
 use Override;
 
 #[Fillable([
@@ -33,6 +35,8 @@ use Override;
 final class Route extends Model
 {
     protected $with = ['arrivalAirport:id,icao,name', 'aircraftTypes:id,icao'];
+
+    private static float $M_PER_NM = 1852;
 
     /**
      * @return BelongsTo<Airport, $this>
@@ -56,6 +60,23 @@ final class Route extends Model
     public function aircraftTypes(): BelongsToMany
     {
         return $this->belongsToMany(AircraftType::class);
+    }
+
+    #[Override]
+    protected static function booted(): void
+    {
+        self::saving(function (self $route): void {
+            if ($route->isDirty('departure_airport_id') || $route->isDirty('arrival_airport_id')) {
+                $departure = Airport::findOrFail($route->departure_airport_id);
+                $arrival = Airport::findOrFail($route->arrival_airport_id);
+
+                $distanceM = DB::query()
+                    ->select([ST::distanceSphere($departure->location, $arrival->location)->as('distance')])
+                    ->value('distance');
+
+                $route->distance = (int) round($distanceM / self::$M_PER_NM);
+            }
+        });
     }
 
     /**

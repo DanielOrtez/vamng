@@ -14,7 +14,7 @@ test('registration screen can be rendered', function () {
     $response->assertOk();
 });
 
-test( 'new users can register', function () {
+test('new users can register', function () {
     $this->seed();
 
     $response = $this->post(route('register.store'), [

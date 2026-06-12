@@ -11,6 +11,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\TimePicker;
+use Filament\Schemas\Components\Grid;
 use Filament\Schemas\Components\Text;
 use Filament\Schemas\Schema;
 use Filament\Support\Enums\FontWeight;
@@ -56,31 +57,29 @@ final class RouteForm
                         Text::make('Only Code. e.g., 001')
                             ->weight(FontWeight::Bold)
                     ),
-                TextInput::make('distance')
-                    ->numeric()
-                    ->minValue(0)
-                    ->maxValue(65535)
-                    ->label('Distance (nm)'),
-                Textarea::make('route')
-                    ->columnSpanFull(),
-                TimePicker::make('departure_time')
-                    ->seconds(false)
-                    ->required()
-                    ->label('Departure Time'),
-                TimePicker::make('arrival_time')
-                    ->seconds(false)
-                    ->required()
-                    ->label('Arrival Time'),
-                TextInput::make('flight_time')
-                    ->numeric()
-                    ->minValue(0)
-                    ->maxValue(65535)
-                    ->suffix('mins')
-                    ->label('Flight Time'),
                 TextInput::make('cost_index')
                     ->numeric()
                     ->minValue(0)
+                    ->required()
                     ->label('Cost Index'),
+                Textarea::make('route')
+                    ->columnSpanFull(),
+                Grid::make(3)->schema([
+                    TimePicker::make('departure_time')
+                        ->seconds(false)
+                        ->required()
+                        ->label('Departure Time'),
+                    TimePicker::make('arrival_time')
+                        ->seconds(false)
+                        ->required()
+                        ->label('Arrival Time'),
+                    TextInput::make('flight_time')
+                        ->numeric()
+                        ->minValue(0)
+                        ->maxValue(65535)
+                        ->suffix('mins')
+                        ->label('Flight Time'),
+                ])->columnSpanFull(),
             ]);
     }
 }

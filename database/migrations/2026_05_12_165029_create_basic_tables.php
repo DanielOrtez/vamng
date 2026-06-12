@@ -22,12 +22,12 @@ return new class extends Migration
             $table->string('name');
             $table->char('iso_2_country', 2);
             $table->smallInteger('elevation_ft')->nullable();
-            $table->decimal('latitude', 10, 8);
-            $table->decimal('longitude', 11, 8);
+            $table->geography('location', 'point');
             $table->boolean('is_hub')->default(false);
             $table->timestamps();
 
             $table->index('is_hub');
+            $table->spatialIndex('location');
         });
 
         if (Schema::getConnection()->getDriverName() === 'pgsql') {

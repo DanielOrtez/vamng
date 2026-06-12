@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Models;
 
 use App\EloquentBuilder\AirportBuilder;
+use Clickbar\Magellan\Data\Geometries\Point;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -12,7 +13,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Override;
 use Squire\Models\Country;
 
-#[Fillable(['icao', 'iata', 'name', 'iso_2_country', 'elevation_ft', 'latitude', 'longitude', 'is_hub'])]
+#[Fillable(['icao', 'iata', 'name', 'iso_2_country', 'elevation_ft', 'location', 'is_hub'])]
 final class Airport extends Model
 {
     #[Override]
@@ -42,6 +43,7 @@ final class Airport extends Model
     {
         return [
             'is_hub' => 'boolean',
+            'location' => Point::class,
         ];
     }
 }

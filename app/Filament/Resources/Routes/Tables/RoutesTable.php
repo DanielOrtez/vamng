@@ -33,6 +33,9 @@ final class RoutesTable
                 TextColumn::make('flight_time_formatted')
                     ->sortable(['flight_time'])
                     ->label('Flight Time'),
+                TextColumn::make('distance')
+                    ->sortable()
+                    ->label('Distance (NM)'),
                 TextColumn::make('cost_index')
                     ->label('Cost Index'),
             ])
