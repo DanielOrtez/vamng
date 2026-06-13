@@ -42,7 +42,7 @@ export const columns: ColumnDef<Route>[] = [
                 ],
             )
         },
-        cell: ({ row }) => formatTime(row.getValue('departure_time')),
+        cell: ({ row }) => `${formatTime(row.getValue('departure_time'))}z`,
     },
     {
         accessorKey: 'arrival_time',
@@ -64,7 +64,24 @@ export const columns: ColumnDef<Route>[] = [
                 ],
             )
         },
-        cell: ({ row }) => formatTime(row.getValue('arrival_time')),
+        cell: ({ row }) => `${formatTime(row.getValue('arrival_time'))}z`,
+    },
+    {
+        accessorKey: 'distance',
+        header: ({ column }) => {
+            return h(
+                Button,
+                {
+                    variant: 'ghost',
+                    size: 'sm',
+                    class: 'cursor-pointer',
+                    onClick: () =>
+                        column.toggleSorting(column.getIsSorted() === 'asc'),
+                },
+                () => ['Distance', h(ArrowUpDown, { class: 'ml-2 h-4 w-4' })],
+            )
+        },
+        cell: ({ row }) => `${row.getValue('distance')}nm`,
     },
     {
         accessorKey: 'flight_time',
