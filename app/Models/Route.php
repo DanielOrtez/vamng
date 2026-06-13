@@ -103,7 +103,7 @@ final class Route extends Model
      * @param  Builder<self>  $query
      */
     #[Scope]
-    protected function fromUserLocation(Builder $query, int|string $location): void
+    protected function fromLocation(Builder $query, int|string $location): void
     {
         $query->where('departure_airport_id', $location);
     }

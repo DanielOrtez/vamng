@@ -16,8 +16,7 @@ final class FlightController extends Controller
 {
     public function list(Request $request): Response
     {
-        $currentUserLocation = request()->user()->currentAirport;
-        $query = Route::fromUserLocation($currentUserLocation->id);
+        $query = Route::fromLocation($request->user()->currentAirport->id);
         $routes = QueryBuilder::for($query)
             ->allowedSorts('flight_time', 'departure_time', 'arrival_time', 'distance')
             ->allowedFilters(AllowedFilter::partial('arrival_airport', 'arrivalAirport.icao'))
