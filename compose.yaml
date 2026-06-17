@@ -19,7 +19,6 @@ services:
             IGNITION_LOCAL_SITES_PATH: "${PWD}"
         volumes:
             - ".:/var/www/html"
-            - "pnpm-store:/pnpm-store"
         networks:
             - sail
         depends_on:
@@ -81,4 +80,3 @@ volumes:
         driver: local
     sail-redis:
         driver: local
-    pnpm-store:

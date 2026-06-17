@@ -14,7 +14,7 @@ import {
     SidebarMenuItem,
 } from '@/components/ui/sidebar'
 import { dashboard } from '@/routes'
-import flight from '@/routes/flight'
+import flights from '@/routes/flights/book'
 import type { NavItem } from '@/types'
 
 const mainNavItems: NavItem[] = [
@@ -28,7 +28,7 @@ const mainNavItems: NavItem[] = [
 const actionsNavItems: NavItem[] = [
     {
         title: 'Book a Flight',
-        href: flight.list(),
+        href: flights.list(),
         icon: ClipboardClockIcon,
     },
 ]

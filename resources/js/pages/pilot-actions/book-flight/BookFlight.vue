@@ -1,17 +1,9 @@
 <script setup lang="ts">
 import type { Route } from '@/types/airline'
-import { columns } from './columns'
+import { flightsColumns } from './columns'
 import { Head } from '@inertiajs/vue3'
 import type { Auth, Pagination } from '@/types'
-import { FlexRender, getCoreRowModel, useVueTable } from '@tanstack/vue-table'
-import {
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from '@/components/ui/table'
+import { getCoreRowModel, useVueTable } from '@tanstack/vue-table'
 import { useDataTable } from '@/composables/useDataTable'
 import { useDebounceFn } from '@vueuse/core'
 import { Search } from '@lucide/vue'
@@ -21,6 +13,7 @@ import {
     InputGroupInput,
 } from '@/components/ui/input-group'
 import DataTablePagination from "@/components/ui/data-table/DataTablePagination.vue";
+import OwnTable from "@/components/ui/data-table/OwnTable.vue";
 
 const props = defineProps<{
     routes: Pagination<Route>
@@ -42,8 +35,9 @@ const table = useVueTable({
         return props.routes.data
     },
     get columns() {
-        return columns
+        return flightsColumns
     },
+    getRowId: originalRow => String(originalRow.id),
     getCoreRowModel: getCoreRowModel(),
     manualPagination: true,
     manualSorting: true,
@@ -103,56 +97,7 @@ const table = useVueTable({
 
     <div class="flex h-full flex-1 flex-col p-4">
         <div class="border rounded-md">
-            <Table>
-                <TableHeader>
-                    <TableRow
-                        v-for="headerGroup in table.getHeaderGroups()"
-                        :key="headerGroup.id"
-                    >
-                        <TableHead
-                            v-for="header in headerGroup.headers"
-                            :key="header.id"
-                        >
-                            <FlexRender
-                                v-if="!header.isPlaceholder"
-                                :render="header.column.columnDef.header"
-                                :props="header.getContext()"
-                            />
-                        </TableHead>
-                    </TableRow>
-                </TableHeader>
-                <TableBody>
-                    <template v-if="table.getRowModel().rows?.length">
-                        <TableRow
-                            v-for="row in table.getRowModel().rows"
-                            :key="row.id"
-                            :data-state="
-                                row.getIsSelected() ? 'selected' : undefined
-                            "
-                        >
-                            <TableCell
-                                v-for="cell in row.getVisibleCells()"
-                                :key="cell.id"
-                            >
-                                <FlexRender
-                                    :render="cell.column.columnDef.cell"
-                                    :props="cell.getContext()"
-                                />
-                            </TableCell>
-                        </TableRow>
-                    </template>
-                    <template v-else>
-                        <TableRow>
-                            <TableCell
-                                :colspan="columns.length"
-                                class="h-24 text-center"
-                            >
-                                No Results
-                            </TableCell>
-                        </TableRow>
-                    </template>
-                </TableBody>
-            </Table>
+            <OwnTable :table="table" :columns-length="flightsColumns.length" />
         </div>
         <DataTablePagination :table="table" />
     </div>

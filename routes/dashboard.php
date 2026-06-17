@@ -2,8 +2,13 @@
 
 declare(strict_types=1);
 
-use App\Http\Controllers\PilotActions\FlightController;
+use App\Http\Controllers\PilotActions\BookFlightController;
 
 Route::middleware(['auth', 'verified'])->group(function (): void {
-    Route::get('book_flight', [FlightController::class, 'list'])->name('flight.list');
+    Route::prefix('flights')->group(function () {
+        Route::prefix('book')->group(function () {
+            Route::get('/', [BookFlightController::class, 'list'])->name('flights.book.list');
+            Route::get('/{routeID}/select-aircraft', [BookFlightController::class, 'select_aircraft'])->name('flights.book.select_aircraft');
+        });
+    });
 });

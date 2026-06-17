@@ -19,6 +19,14 @@ export type AircraftType = {
     icao: string
 }
 
+export type Aircraft = {
+    id: number
+    name: string
+    registration: string
+    hours_flown: number
+    aircraft_type: AircraftType
+}
+
 export type Route = {
     id: number
     code: string

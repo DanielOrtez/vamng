@@ -1,13 +1,15 @@
 import { ColumnDef } from '@tanstack/vue-table'
 
-import { AircraftType, Airport, Route } from '@/types/airline'
+import type { Aircraft, AircraftType, Airport, Route } from '@/types/airline'
 import { formatDuration, formatTime } from '@/lib/utils'
 import { h } from 'vue'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { ArrowUpDown } from '@lucide/vue'
+import { select_aircraft } from '@/routes/flights/book'
+import { Link } from '@inertiajs/vue3'
 
-export const columns: ColumnDef<Route>[] = [
+export const flightsColumns: ColumnDef<Route>[] = [
     {
         accessorKey: 'route_code',
         header: 'Route code',
@@ -131,11 +133,59 @@ export const columns: ColumnDef<Route>[] = [
     {
         accessorKey: 'book_flight',
         header: () => null,
+        cell: ({ row }) =>
+            h(
+                Button,
+                {
+                    variant: 'secondary',
+                    size: 'sm',
+                    class: 'cursor-pointer',
+                    asChild: true,
+                },
+                () =>
+                    h(
+                        Link,
+                        {
+                            href: select_aircraft(row.id),
+                        },
+                        () => 'Book',
+                    ),
+            ),
+    },
+]
+
+export const aircraftsColumns: ColumnDef<Aircraft>[] = [
+    {
+        accessorKey: 'aircraft_type',
+        header: 'Aircraft Type',
+        cell: ({ row }) => {
+            const aircraftType: AircraftType = row.getValue('aircraft_type')
+            return aircraftType.icao
+        },
+    },
+    {
+        accessorKey: 'registration',
+        header: 'Registration',
+        cell: ({ row }) => row.getValue('registration'),
+    },
+    {
+        accessorKey: 'name',
+        header: 'Name',
+        cell: ({ row }) => row.getValue('name'),
+    },
+    {
+        accessorKey: 'hours_flown',
+        header: 'Hours Flown',
+        cell: ({ row }) => row.getValue('hours_flown'),
+    },
+    {
+        accessorKey: 'select_aircraft',
+        header: () => null,
         cell: () =>
             h(
                 Button,
                 { variant: 'secondary', size: 'sm', class: 'cursor-pointer' },
-                () => 'Book',
+                () => 'Select',
             ),
     },
 ]
