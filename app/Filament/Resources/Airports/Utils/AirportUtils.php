@@ -9,7 +9,7 @@ use Clickbar\Magellan\Data\Geometries\Point;
 final class AirportUtils
 {
     /**
-     * @param array<string, mixed> $data
+     * @param  array<string, mixed>  $data
      * @return array<string, mixed>
      */
     public static function convertLatLonToPoint(array $data): array

@@ -12,8 +12,8 @@ import {
     InputGroupAddon,
     InputGroupInput,
 } from '@/components/ui/input-group'
-import DataTablePagination from "@/components/ui/data-table/DataTablePagination.vue";
-import OwnTable from "@/components/ui/data-table/OwnTable.vue";
+import DataTablePagination from '@/components/ui/data-table/DataTablePagination.vue'
+import OwnTable from '@/components/ui/data-table/OwnTable.vue'
 
 const props = defineProps<{
     routes: Pagination<Route>
@@ -37,7 +37,7 @@ const table = useVueTable({
     get columns() {
         return flightsColumns
     },
-    getRowId: originalRow => String(originalRow.id),
+    getRowId: (originalRow) => String(originalRow.id),
     getCoreRowModel: getCoreRowModel(),
     manualPagination: true,
     manualSorting: true,

@@ -39,7 +39,7 @@ final class BookFlightController extends Controller
 
         return Inertia::render('pilot-actions/book-flight/SelectAircraft', [
             'route' => $route,
-            'aircrafts' => $query
+            'aircrafts' => $query,
         ]);
     }
 }

@@ -7,7 +7,7 @@ import DataTablePagination from '@/components/ui/data-table/DataTablePagination.
 import { getCoreRowModel, useVueTable } from '@tanstack/vue-table'
 import { useDataTable } from '@/composables/useDataTable'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import {formatDuration, formatTime} from '@/lib/utils'
+import { formatDuration, formatTime } from '@/lib/utils'
 
 const props = defineProps<{
     route: Route
