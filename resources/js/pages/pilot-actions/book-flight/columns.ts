@@ -193,7 +193,7 @@ export const aircraftsColumns: ColumnDef<Aircraft>[] = [
                 ],
             )
         },
-        cell: ({ row }) => row.getValue('hours_flown'),
+        cell: ({ row }) => `${row.getValue('hours_flown')}h`,
     },
     {
         accessorKey: 'select_aircraft',

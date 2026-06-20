@@ -15,6 +15,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select'
+import {Separator} from "@/components/ui/separator";
 
 const props = defineProps<{
     route: Route
@@ -116,25 +117,29 @@ const table = useVueTable({
                     <CardTitle>Route Information</CardTitle>
                 </CardHeader>
                 <CardContent class="flex flex-col gap-2 text-sm">
-                    <p class="border-b-2 border-b-secondary py-2">
+                    <p class="py-2">
                         <span class="font-bold">Departure:</span>
                         {{ route.departure_airport?.name }}
                         ({{ route.departure_airport?.icao }})
                     </p>
-                    <p class="border-b-2 border-b-secondary py-2">
+                    <Separator />
+                    <p class="py-2">
                         <span class="font-bold">Arrival:</span>
                         {{ route.arrival_airport?.name }}
                         ({{ route.arrival_airport?.icao }})
                     </p>
-                    <p class="border-b-2 border-b-secondary py-2">
+                    <Separator />
+                    <p class="py-2">
                         <span class="font-bold">Departure Time:</span>
                         {{ formatTime(route.departure_time) }}z
                     </p>
-                    <p class="border-b-2 border-b-secondary py-2">
+                    <Separator />
+                    <p class="py-2">
                         <span class="font-bold">Arrival Time:</span>
                         {{ formatTime(route.arrival_time) }}z
                     </p>
-                    <p class="border-b-2 border-b-secondary py-2">
+                    <Separator />
+                    <p class="py-2">
                         <span class="font-bold">Duration:</span>
                         {{ formatDuration(route.flight_time) }}
                     </p>
