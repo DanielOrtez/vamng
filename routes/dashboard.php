@@ -8,7 +8,7 @@ Route::middleware(['auth', 'verified'])->group(function (): void {
     Route::prefix('flights')->group(function () {
         Route::prefix('book')->group(function () {
             Route::get('/', [BookFlightController::class, 'list'])->name('flights.book.list');
-            Route::get('/{routeID}/select-aircraft', [BookFlightController::class, 'select_aircraft'])->name('flights.book.select_aircraft');
+            Route::get('/{routeID}/select-aircraft', [BookFlightController::class, 'selectAircraft'])->name('flights.book.selectAircraft');
         });
     });
 });

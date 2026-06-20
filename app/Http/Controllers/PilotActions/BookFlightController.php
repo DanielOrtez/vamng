@@ -28,12 +28,12 @@ final class BookFlightController extends Controller
         ]);
     }
 
-    public function select_aircraft(Request $request, int $routeID)
+    public function selectAircraft(Request $request, int $routeID)
     {
         $route = Route::with(['aircraftTypes:id,icao', 'departureAirport:id,icao,name'])->find($routeID);
         $aircraftTypes = $route->aircraftTypes;
 
-        $query = Aircraft::query()
+        $query = Aircraft::notBooked()
             ->where('curr_location_id', $route->departure_airport_id)
             ->whereIn('aircraft_type_id', $aircraftTypes->pluck('id'))
             ->with('aircraftType');

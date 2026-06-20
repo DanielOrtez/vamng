@@ -29,10 +29,7 @@ return new class extends Migration
             $table->index('is_hub');
             $table->spatialIndex('location');
         });
-
-        if (Schema::getConnection()->getDriverName() === 'pgsql') {
-            DB::statement('CREATE INDEX idx_airports_hubs ON airports(is_hub) WHERE is_hub = true');
-        }
+        DB::statement('CREATE INDEX idx_airports_hubs ON airports(is_hub) WHERE is_hub = true');
 
         Schema::create('ranks', function (Blueprint $table): void {
             $table->id();
@@ -61,11 +58,13 @@ return new class extends Migration
             $table->foreignId('aircraft_type_id')->constrained()->cascadeOnDelete();
             $table->foreignId('hub_id')->nullable()->constrained('airports')->nullOnDelete();
             $table->foreignId('curr_location_id')->nullable()->constrained('airports')->nullOnDelete();
+            $table->boolean('is_booked')->default(false);
             $table->timestamps();
 
             $table->index(['hub_id', 'aircraft_type_id']);
             $table->index(['curr_location_id', 'aircraft_type_id']);
         });
+        DB::statement('CREATE INDEX idx_aircrafts_booked ON aircrafts(is_booked) WHERE is_booked = false');
 
         Schema::create('routes', function (Blueprint $table): void {
             $table->id();

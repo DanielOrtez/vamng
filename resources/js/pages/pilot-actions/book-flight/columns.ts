@@ -6,7 +6,7 @@ import { h } from 'vue'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { ArrowUpDown } from '@lucide/vue'
-import { select_aircraft } from '@/routes/flights/book'
+import { selectAircraft } from '@/routes/flights/book'
 import { Link } from '@inertiajs/vue3'
 
 export const flightsColumns: ColumnDef<Route>[] = [
@@ -146,7 +146,7 @@ export const flightsColumns: ColumnDef<Route>[] = [
                     h(
                         Link,
                         {
-                            href: select_aircraft(row.id),
+                            href: selectAircraft(row.id),
                         },
                         () => 'Book',
                     ),
