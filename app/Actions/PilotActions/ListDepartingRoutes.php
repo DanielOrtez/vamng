@@ -17,18 +17,21 @@ final class ListDepartingRoutes
     use DataTableQueryRules;
 
     /**
-     * @return string[]
+     * @return LengthAwarePaginator<int, Route>
      */
-    protected static function allowedSorts(): array
-    {
-        return ['flight_time', 'departure_time', 'arrival_time', 'distance'];
-    }
-
     public function __invoke(BookFlightIndexRequest $request, Airport $departureAirport): LengthAwarePaginator
     {
         return QueryBuilder::for(Route::fromLocation($departureAirport->id), $request)
-            ->allowedSorts(...self::allowedSorts())
+            ->allowedSorts(...$this->allowedSorts())
             ->allowedFilters(AllowedFilter::partial('arrival_airport', 'arrivalAirport.icao'))
             ->paginate($request->integer('perPage', self::PER_PAGE));
+    }
+
+    /**
+     * @return string[]
+     */
+    private function allowedSorts(): array
+    {
+        return ['flight_time', 'departure_time', 'arrival_time', 'distance'];
     }
 }

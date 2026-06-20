@@ -18,8 +18,7 @@ final class BookFlightController extends Controller
     public function __construct(
         private readonly ListDepartingRoutes $listDepartingRoutes,
         private readonly ListAvailableAircrafts $listAvailableAircrafts
-    )
-    {}
+    ) {}
 
     public function list(BookFlightIndexRequest $request): Response
     {
@@ -28,12 +27,12 @@ final class BookFlightController extends Controller
         ]);
     }
 
-    public function selectAircraft(SelectAircraftRequest $request, Route $route)
+    public function selectAircraft(SelectAircraftRequest $request, Route $route): Response
     {
         return Inertia::render('pilot-actions/book-flight/SelectAircraft', [
             'route' => $route->load('departureAirport:id,icao,name'),
             'aircrafts' => ($this->listAvailableAircrafts)($request, $route),
-            'aircraftTypes' => $route->aircraftTypes
+            'aircraftTypes' => $route->aircraftTypes,
         ]);
     }
 }

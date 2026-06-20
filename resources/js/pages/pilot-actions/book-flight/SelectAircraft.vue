@@ -15,7 +15,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select'
-import {Separator} from "@/components/ui/separator";
+import { Separator } from '@/components/ui/separator'
 
 const props = defineProps<{
     route: Route

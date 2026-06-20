@@ -146,7 +146,7 @@ export const flightsColumns: ColumnDef<Route>[] = [
                     h(
                         Link,
                         {
-                            href: selectAircraft(row.id),
+                            href: selectAircraft({ route: Number(row.id) }),
                         },
                         () => 'Book',
                     ),

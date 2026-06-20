@@ -16,24 +16,27 @@ use Spatie\QueryBuilder\QueryBuilder;
 final class ListAvailableAircrafts
 {
     use DataTableQueryRules;
-    /**
-     * @return string[]
-     */
-    protected static function allowedSorts(): array
-    {
-        return ['hours_flown'];
-    }
 
+    /**
+     * @return LengthAwarePaginator<int, Aircraft>
+     */
     public function __invoke(SelectAircraftRequest $request, Route $route): LengthAwarePaginator
     {
         return QueryBuilder::for($this->availableAircraftsQuery($route), $request)
-            ->allowedSorts(...self::allowedSorts())
+            ->allowedSorts(...$this->allowedSorts())
             ->allowedFilters(AllowedFilter::exact('aircraft_type', 'aircraft_type_id'))
             ->paginate($request->integer('perPage', self::PER_PAGE));
     }
 
     /**
-     * @param Route $route
+     * @return string[]
+     */
+    private function allowedSorts(): array
+    {
+        return ['hours_flown'];
+    }
+
+    /**
      * @return Builder<Aircraft>
      */
     private function availableAircraftsQuery(Route $route): Builder

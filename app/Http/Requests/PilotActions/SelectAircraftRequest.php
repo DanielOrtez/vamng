@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Requests\PilotActions;
 
 use App\Models\Route;
@@ -7,6 +9,9 @@ use Illuminate\Foundation\Http\FormRequest;
 
 final class SelectAircraftRequest extends FormRequest
 {
+    /**
+     * @return string[]
+     */
     public function rules(): array
     {
         return [];

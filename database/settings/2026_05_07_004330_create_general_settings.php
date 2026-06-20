@@ -8,7 +8,11 @@ return new class extends SettingsMigration
 {
     public function up(): void
     {
-        $this->migrator->repository('redis');
+        if (App::runningUnitTests()) {
+            $this->migrator->repository('database');
+        } else {
+            $this->migrator->repository('redis');
+        }
 
         $this->migrator->add('default.va_name', 'VAMng');
         $this->migrator->add('default.va_icao', 'VAM');

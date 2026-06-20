@@ -75,15 +75,13 @@ const table = useVueTable({
                 class="max-w-sm"
                 placeholder="Arrival airport"
                 :model-value="
-                        table
-                            .getColumn('arrival_airport')
-                            ?.getFilterValue() as string
-                    "
+                    table
+                        .getColumn('arrival_airport')
+                        ?.getFilterValue() as string
+                "
                 @update:model-value="
-                        table
-                            .getColumn('arrival_airport')
-                            ?.setFilterValue($event)
-                    "
+                    table.getColumn('arrival_airport')?.setFilterValue($event)
+                "
             />
             <InputGroupAddon>
                 <Search />

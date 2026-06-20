@@ -40,7 +40,7 @@ final class Aircraft extends Model
     }
 
     /**
-     * @param Builder<self> $query
+     * @param  Builder<self>  $query
      */
     #[Scope]
     protected function notBooked(Builder $query): void

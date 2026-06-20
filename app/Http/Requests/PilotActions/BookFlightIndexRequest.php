@@ -8,6 +8,9 @@ use Illuminate\Foundation\Http\FormRequest;
 
 final class BookFlightIndexRequest extends FormRequest
 {
+    /**
+     * @return string[]
+     */
     public function rules(): array
     {
         return [];
