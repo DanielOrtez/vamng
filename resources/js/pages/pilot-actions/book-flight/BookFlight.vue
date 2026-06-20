@@ -70,29 +70,25 @@ const table = useVueTable({
                 auth.user.current_airport?.icao
             }})
         </h4>
-        <div class="">
-            <InputGroup>
-                <InputGroupInput
-                    class="max-w-sm"
-                    :placeholder="
-                        table.getColumn('arrival_airport')?.columnDef.header
-                    "
-                    :model-value="
+        <InputGroup class="w-50">
+            <InputGroupInput
+                class="max-w-sm"
+                placeholder="Arrival airport"
+                :model-value="
                         table
                             .getColumn('arrival_airport')
                             ?.getFilterValue() as string
                     "
-                    @update:model-value="
+                @update:model-value="
                         table
                             .getColumn('arrival_airport')
                             ?.setFilterValue($event)
                     "
-                />
-                <InputGroupAddon>
-                    <Search />
-                </InputGroupAddon>
-            </InputGroup>
-        </div>
+            />
+            <InputGroupAddon>
+                <Search />
+            </InputGroupAddon>
+        </InputGroup>
     </div>
 
     <div class="flex h-full flex-1 flex-col p-4">

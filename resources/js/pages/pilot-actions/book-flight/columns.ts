@@ -175,7 +175,24 @@ export const aircraftsColumns: ColumnDef<Aircraft>[] = [
     },
     {
         accessorKey: 'hours_flown',
-        header: 'Hours Flown',
+        header: ({ column }) => {
+            return h(
+                Button,
+                {
+                    variant: 'ghost',
+                    size: 'sm',
+                    class: 'cursor-pointer',
+                    onClick: () =>
+                        column.toggleSorting(column.getIsSorted() === 'asc'),
+                },
+                () => [
+                    'Hours flown',
+                    h(ArrowUpDown, {
+                        class: 'ml-2 h-4 w-4',
+                    }),
+                ],
+            )
+        },
         cell: ({ row }) => row.getValue('hours_flown'),
     },
     {

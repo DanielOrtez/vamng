@@ -30,16 +30,23 @@ final class BookFlightController extends Controller
 
     public function select_aircraft(Request $request, int $routeID)
     {
-        $route = Route::with(['aircraftTypes:id', 'departureAirport:id,icao,name'])->find($routeID);
+        $route = Route::with(['aircraftTypes:id,icao', 'departureAirport:id,icao,name'])->find($routeID);
+        $aircraftTypes = $route->aircraftTypes;
+
         $query = Aircraft::query()
             ->where('curr_location_id', $route->departure_airport_id)
-            ->whereIn('aircraft_type_id', $route->aircraftTypes->pluck('id'))
-            ->with('aircraftType')
+            ->whereIn('aircraft_type_id', $aircraftTypes->pluck('id'))
+            ->with('aircraftType');
+
+        $aircrafts = QueryBuilder::for($query)
+            ->allowedSorts('hours_flown')
+            ->allowedFilters(AllowedFilter::exact('aircraft_type', 'aircraft_type_id'))
             ->paginate($request->integer('perPage', 15));
 
         return Inertia::render('pilot-actions/book-flight/SelectAircraft', [
             'route' => $route,
-            'aircrafts' => $query,
+            'aircrafts' => $aircrafts,
+            'aircraftTypes' => $aircraftTypes
         ]);
     }
 }

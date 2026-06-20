@@ -16,6 +16,7 @@ export type Country = {
 }
 
 export type AircraftType = {
+    id: number
     icao: string
 }
 

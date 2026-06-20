@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Aircraft, Route } from '@/types/airline'
+import { Aircraft, AircraftType, Route } from '@/types/airline'
 import { Pagination } from '@/types'
 import { aircraftsColumns } from '@/pages/pilot-actions/book-flight/columns'
 import OwnTable from '@/components/ui/data-table/OwnTable.vue'
@@ -8,19 +8,29 @@ import { getCoreRowModel, useVueTable } from '@tanstack/vue-table'
 import { useDataTable } from '@/composables/useDataTable'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { formatDuration, formatTime } from '@/lib/utils'
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from '@/components/ui/select'
 
 const props = defineProps<{
     route: Route
     aircrafts: Pagination<Aircraft>
+    aircraftTypes: AircraftType[]
 }>()
 
-const { pagination, paginate, sorting, sort } = useDataTable({
-    pagination: {
-        pageIndex: props.aircrafts.current_page - 1,
-        pageSize: props.aircrafts.per_page,
+const { pagination, paginate, sorting, sort, filtering, filter } = useDataTable(
+    {
+        pagination: {
+            pageIndex: props.aircrafts.current_page - 1,
+            pageSize: props.aircrafts.per_page,
+        },
+        only: ['aircrafts'],
     },
-    only: ['routes'],
-})
+)
 
 const table = useVueTable({
     get data() {
@@ -29,11 +39,16 @@ const table = useVueTable({
     get columns() {
         return aircraftsColumns
     },
+    getRowId: (originalRow) => String(originalRow.id),
     getCoreRowModel: getCoreRowModel(),
     manualPagination: true,
     manualSorting: true,
+    manualFiltering: true,
+    rowCount: props.aircrafts.total,
+    pageCount: props.aircrafts.last_page,
     onPaginationChange: paginate,
     onSortingChange: sort,
+    onColumnFiltersChange: filter,
     state: {
         get pagination() {
             return pagination.value
@@ -41,17 +56,47 @@ const table = useVueTable({
         get sorting() {
             return sorting.value
         },
+        get columnFilters() {
+            return filtering.value
+        },
     },
 })
 </script>
 
 <template>
-    <div class="px-4 pt-4 flex justify-between">
-        <h4 class="flex scroll-m-20 text-xl font-semibold tracking-tight">
+    <div class="grid grid-cols-4 px-4 pt-4">
+        <h4
+            class="flex scroll-m-20 text-xl font-semibold tracking-tight col-span-2"
+        >
             Aircrafts availables at {{ route.departure_airport?.name }} ({{
                 route.departure_airport?.icao
             }})
         </h4>
+
+        <div class="justify-self-end pr-2">
+            <Select
+                multiple
+                :model-value="
+                    table.getColumn('aircraft_type')?.getFilterValue() as string
+                "
+                @update:model-value="
+                    table.getColumn('aircraft_type')?.setFilterValue($event)
+                "
+            >
+                <SelectTrigger class="w-50">
+                    <SelectValue placeholder="Aircraft type" />
+                </SelectTrigger>
+                <SelectContent>
+                    <SelectItem
+                        v-for="aircraftType in aircraftTypes"
+                        :key="aircraftType.id"
+                        :value="aircraftType.id"
+                    >
+                        {{ aircraftType.icao }}
+                    </SelectItem>
+                </SelectContent>
+            </Select>
+        </div>
     </div>
 
     <div class="grid grid-cols-4">
@@ -70,7 +115,7 @@ const table = useVueTable({
                 <CardHeader>
                     <CardTitle>Route Information</CardTitle>
                 </CardHeader>
-                <CardContent class="flex flex-col gap-2">
+                <CardContent class="flex flex-col gap-2 text-sm">
                     <p class="border-b-2 border-b-secondary py-2">
                         <span class="font-bold">Departure:</span>
                         {{ route.departure_airport?.name }}
